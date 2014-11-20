@@ -1,0 +1,92 @@
+Create database VMS_DATABASE;
+
+create table person_id(
+pid number(5) primary key);
+
+
+create table Doctor(
+doc_id number(5) primary key,
+constraint doc_fk foreign key (doc_id) references person_id(pid),
+name varchar2(50) not null,
+clinic_address varchar2(1000) not null
+);
+
+create table Authentication(
+id number(5) primary key references Doctor(doc_id),
+userId varchar(10) not null unique,
+userPassword varchar(20) not null
+);
+
+
+create table PetOwner(
+own_id number(5) primary key,
+constraint pet_owner_fk foreign key (own_id) references person_id(pid),
+name varchar2(50) not null,
+email_address varchar2(100) not null unique,
+profession varchar2(100)
+);
+
+
+create table ContatDetails (
+per_id number(5) references person_id(pid),
+role varchar2(10) not null,
+phone_number number(10) not null,
+contact_type varchar2(50) DEFAULT 'PRIMARY',
+constraint contact_det_pk primary key (per_id, role, contact_type),
+constraint contact_role CHECK (role in ('DOCTOR','OWNER')),
+constraint contact_type CHECK (contact_type in ('PRIMARY','SECONDARY', 'FAX')));
+
+
+create table Pet(
+pet_id number(10) primary key,
+pet_owner number(5) not null references PetOwner(own_id),
+breed varchar2(30) not null,
+color varchar2(20) not null,
+date_of_birth date,
+gender varchar2(6) check (gender in ('MALE','FEMALE')));
+
+
+create table Dog(
+dog_id number(10) primary key references Pet(pet_id),
+name varchar2(50) not null,
+kennel_club_number number(25) unique,
+microchip_number varchar2(30) unique
+);
+
+create table Cat(
+cat_id number(10) primary key references Pet(pet_id),
+name varchar2(50) not null,
+reg_number number(20) unique
+);
+
+create table Appointment(
+apt_id number(20) primary key,
+pet_id number(10) references Pet(pet_id),
+attending_doc number(5) references Doctor(doc_id),
+start_time Date not null,
+end_time Date not null,
+notes varchar2(2000),
+unique(apr_id, pet_id, attending_doc,start_time,end_time)
+);
+
+create table AppointmentHealthRecord (
+rec_id number(20) primary key references Appointment(apt_id),
+height double,
+weight double not null
+);
+
+create table Vaccination(
+vac_id number(20) references Appointment(apt_id),
+name varchar2(100) not null,
+next_dose date not null,
+primary key (vac_id, name)
+);
+
+create table BillingInfo(
+bill_id number(20) references Appointment(apt_id),
+description varchar2(50) not null,
+amount double not null,
+primary key (billing_id, description)
+);
+
+insert into VMS_DATABASE.authentication values (1 , 'Narendra' ,'hidada');
