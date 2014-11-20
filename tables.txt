@@ -66,13 +66,13 @@ attending_doc number(5) references Doctor(doc_id),
 start_time Date not null,
 end_time Date not null,
 notes varchar2(2000),
-unique(apr_id, pet_id, attending_doc,start_time,end_time)
+unique(apt_id, pet_id, attending_doc,start_time,end_time)
 );
 
 create table AppointmentHealthRecord (
 rec_id number(20) primary key references Appointment(apt_id),
-height double,
-weight double not null
+height double PRECISION,
+weight double PRECISION not null
 );
 
 create table Vaccination(
@@ -85,8 +85,6 @@ primary key (vac_id, name)
 create table BillingInfo(
 bill_id number(20) references Appointment(apt_id),
 description varchar2(50) not null,
-amount double not null,
-primary key (billing_id, description)
-);
-
-insert into VMS_DATABASE.authentication values (1 , 'Narendra' ,'hidada');
+amount double PRECISION not null,
+primary key (bill_id, description)
+);	
