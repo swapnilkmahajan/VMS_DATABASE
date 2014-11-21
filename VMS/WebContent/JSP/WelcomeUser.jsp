@@ -5,7 +5,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Welcome User</title>
+<script>
+function setURL(url){
+    document.getElementById('mainIframe').src = url;
+}
+</script>
 </head>
+
 <link rel="stylesheet" href="../CSS/form_style.css" media="screen" type="text/css" /></head>
 
 <body>
@@ -17,10 +23,10 @@
 <br>
 <h3>
 <br>
-	<a href="NewPetOwner.jsp">New</a> &nbsp; &nbsp; &nbsp; 
-	<a href="NewAppointment.jsp">Appointment</a> &nbsp; &nbsp; &nbsp; 
-	<a href="HealthRecords.jsp">Health Records</a> &nbsp; &nbsp; &nbsp; 
-	<a href="Payments.jsp">Payments</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('NewPetOwner.jsp')">New</a> &nbsp; &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('NewAppointment.jsp')">Appointment</a> &nbsp; &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('HealthRecords.jsp')">Health Records</a> &nbsp; &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('Payments.jsp')">Payments</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 	&nbsp; 
 <button>Log Out</button>
 <br>
@@ -29,7 +35,7 @@
 </h3>
 <iframe src="DoctorList.jsp" height=300px width=120px></iframe>
 &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<iframe src="AppointmentsForADay.jsp" height=300px width=450px></iframe>
+<iframe src="AppointmentsForADay.jsp" height=300px width=520px id="mainIframe"></iframe>
 
 </form>
 </body>
