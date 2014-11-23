@@ -1,20 +1,20 @@
-create table VMS_DATABASE.person_id(
+create table person_id(
 pid number(5) primary key);
 
-create table VMS_DATABASE.Doctor(
+create table Doctor(
 doc_id number(5) primary key,
 constraint doc_fk foreign key (doc_id) references person_id(pid),
 name varchar2(50) not null,
 clinic_address varchar2(1000) not null
 );
 
-create table VMS_DATABASE.Authentication(
+create table Authentication(
 id number(5) primary key references Doctor(doc_id),
 userId varchar(10) not null unique,
 userPassword varchar(20) not null
 );
 
-create table VMS_DATABASE.PetOwner(
+create table PetOwner(
 own_id number(5) primary key,
 constraint pet_owner_fk foreign key (own_id) references person_id(pid),
 name varchar2(50) not null,
@@ -22,7 +22,7 @@ email_address varchar2(100) not null unique,
 profession varchar2(100)
 );
 
-create table VMS_DATABASE.ContatDetails (
+create table ContatDetails (
 per_id number(5) references person_id(pid),
 role varchar2(10) not null,
 phone_number number(10) not null,
@@ -32,83 +32,83 @@ constraint contact_role CHECK (role in ('DOCTOR','OWNER')),
 constraint contact_type CHECK (contact_type in ('PRIMARY','SECONDARY', 'FAX'))
 );
 
-create table VMS_DATABASE.Pet(
+create table Pet(
 pet_id number(10) primary key,
 pet_owner number(5) not null references PetOwner(own_id),
 breed varchar2(30) not null,
 color varchar2(20) not null,
 date_of_birth date,
-gender varchar2(6) check (gender in ('MALE','FEMALE'))
+gender varchar2(6) not null check (gender in ('MALE','FEMALE'))
 );
 
-create table VMS_DATABASE.Dog(
+create table Dog(
 dog_id number(10) primary key references Pet(pet_id),
 name varchar2(50) not null,
 kennel_club_number number(25) unique,
 microchip_number varchar2(30) unique
 );
 
-create table VMS_DATABASE.Cat(
+create table Cat(
 cat_id number(10) primary key references Pet(pet_id),
 name varchar2(50) not null,
 reg_number number(20) unique
 );
 
-create table VMS_DATABASE.Appointment(
+create table Appointment(
 apt_id number(20) primary key,
 pet_id number(10) references Pet(pet_id),
 attending_doc number(5) references Doctor(doc_id),
 start_time Date not null,
 end_time Date not null,
 notes varchar2(2000),
-unique(apr_id, pet_id, attending_doc,start_time,end_time)
+unique(apt_id, pet_id, attending_doc,start_time,end_time)
 );
 
-create table VMS_DATABASE.AppointmentHealthRecord (
+create table AppointmentHealthRecord (
 rec_id number(20) primary key references Appointment(apt_id),
-height double,
-weight double not null
+height double precision,
+weight double precision not null
 );
 
-create table VMS_DATABASE.Vaccination(
+create table Vaccination(
 vac_id number(20) references Appointment(apt_id),
 name varchar2(100) not null,
 next_dose date not null,
 primary key (vac_id, name)
 );
 
-create table VMS_DATABASE.BillingInfo(
+create table BillingInfo(
 bill_id number(20) references Appointment(apt_id),
 description varchar2(50) not null,
-amount double not null,
-primary key (billing_id, description)
+amount double precision not null,
+primary key (bill_id, description)
 );
 
 
 /* Add first Doctor*/
-insert into VMS_DATABASE.person_id values (1);
-insert into VMS_DATABASE.Doctor values (1 , '&DOC_NAME' ,'&DOC');
-insert into VMS_DATABASE.authentication values (1 , '&USERNAME' ,'&PASS');
+insert into person_id values (1);
+insert into Doctor values (1 , '&DOC_NAME' ,'&DOC');
+insert into authentication values (1 , '&USERNAME' ,'&PASS');
 commit;
 
 
 /* sequences for auto incrementing primary keys*/
 
-create sequence VMS_DATABASE.person_id_seq
+create sequence person_id_seq
 minvalue 1 
 maxvalue 99999
 increment by 1
 nocache
 nocycle;
 
-create sequence VMS_DATABASE.pet_id_seq
+create sequence pet_id_seq
 increment by 1
 minvalue 1 
 maxvalue 9999999999
 nocache
 nocycle;
 
-create sequence VMS_DATABASE.apt_id_seq
+create sequence apt_id_seq
 increment by 1
 minvalue 1 
 maxvalue 99999999999999999999
@@ -116,7 +116,7 @@ nocache
 nocycle;
 
 /*
-/* triggers for using next value for primary key everytime a new row is added in tables*/
+triggers for using next value for primary key everytime a new row is added in tables
 create or replace trigger person_id_seq_trig before insert on person_id
 for each row 
 BEGIN
@@ -141,13 +141,13 @@ END;
 
 /*  Views for Appointment */
 
-create or replace view VMS_DATABASE.appointment_details_vw as
+create or replace view appointment_details_vw as
 select apt.*, o.name, o.email_address from appointment apt, pet p, petowner o
 where p.pet_id = apt.pet_id
 and P.PET_OWNER = O.OWN_ID;
 
 
-create or replace view VMS_DATABASE.pet_details_for_appointment_vw as 
+create or replace view pet_details_for_appointment_vw as 
 select
 apt.attending_doc as doc,
 apt.start_time as starts,
@@ -155,7 +155,7 @@ apt.end_time as ends,
 apt.name as owner,
 apt.email_Address as email,
 c.name as petname
-from VMS_DATABASE.appointment_details_vw apt, cat c
+from appointment_details_vw apt, cat c
 where apt.pet_id = c.cat_id
 union
 select
@@ -165,17 +165,17 @@ apt.end_time as ends,
 apt.name as owner,
 apt.email_Address as email,
 d.name as petname
-from VMS_DATABASE.appointment_details_vw apt, dog d
+from appointment_details_vw apt, dog d
 where apt.pet_id = d.dog_id;
 
 
 /* Procedure for fetching appointment details by date and doctor */
 
-create or replace procedure VMS_DATABASE.fetch_appointments(for_date varchar2, doc_id number)
+create or replace procedure fetch_appointments(for_date varchar2, doc_id number)
 as
  
 cursor apt_details is 
-select * from VMS_DATABASE.pet_details_for_appointment_vw where trunc(starts) = trunc(to_date (for_date ,'mm/dd/yyyy'))
+select * from pet_details_for_appointment_vw where trunc(starts) = trunc(to_date (for_date ,'mm/dd/yyyy'))
  and doc = doc_id order by starts asc;
 begin
 
@@ -189,3 +189,5 @@ DBMS_OUTPUT.PUT_LINE ( 'apt_detemail = ' || apt_det.email );
 DBMS_OUTPUT.PUT_LINE ( 'apt_det.petname = ' || apt_det.petname );
 end loop;
 end;
+
+/
