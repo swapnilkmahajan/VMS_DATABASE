@@ -12,30 +12,35 @@ function setURL(url){
 </script>
 </head>
 
-<link rel="stylesheet" href="../CSS/form_style.css" media="screen" type="text/css" /></head>
+<link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 
 <body>
-<form class="form-style">
-<img src="../Images/DogAndCat.jpg" height=70 width=100 />
+<form class="dark-matter" >
+<input type="button"  class="logoutbutton" />
+<img src="../Images/DogAndCat.jpg" height=90 width=110 align="right"/>
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
 &nbsp; &nbsp; &nbsp; 
-<img src="../Images/VMS_Text.png" height=70 width=400  />
+<font size="6" face="verdana">Veternary Management System </font>
 <br>
+<br>
+<br>
+<hr>
 <h3>
 <br>
-	<input type="button" onclick="setURL('NewPetOwner.jsp')">New</a> &nbsp; &nbsp; &nbsp; 
-	<input type="button" onclick="setURL('NewAppointment.jsp')">Appointment</a> &nbsp; &nbsp; &nbsp; 
-	<input type="button" onclick="setURL('HealthRecords.jsp')">Health Records</a> &nbsp; &nbsp; &nbsp; 
-	<input type="button" onclick="setURL('Payments.jsp')">Payments</a> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('NewPetOwner.jsp')" value="New Pet Owner" class="button"> &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('NewPetDetails.jsp')" class="button" value="New Pet Details"> &nbsp; &nbsp;
+	<input type="button" onclick="setURL('NewAppointment.jsp')" value="Appointment" class="button"> &nbsp; &nbsp;
+	<input type="button" onclick="setURL('HealthRecords.jsp')" class="button" value="Health Records"> &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('SearchRecords.jsp.jsp')" class="button" value="Search Records"> &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('Payments.jsp')" class="button" value="Payments"> &nbsp; &nbsp;   
 	&nbsp; 
-<button>Log Out</button>
 <br>
 <br>
 <br>
 </h3>
-<iframe src="DoctorList.jsp" height=300px width=120px></iframe>
-&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<iframe src="AppointmentsForADay.jsp" height=300px width=520px id="mainIframe"></iframe>
+<iframe src="DoctorList.jsp" height=500px width=170px></iframe>
+&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<iframe src="AppointmentsForADay.jsp" height=500px width=650px id="mainIframe"></iframe>
 
 </form>
 </body>

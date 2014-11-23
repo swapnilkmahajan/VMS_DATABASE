@@ -6,7 +6,14 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" />
+
 <body>
-Payments page..
+<form class="dark-matter">
+*Cat Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="catname">
+<br>
+Reg Number:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="regnumber">
+<br>
+</form>
 </body>
 </html>

@@ -6,18 +6,19 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
+<link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 
 <body>
-<form>
+<form class="dark-matter">
 <h6>
-<img src="../Images/DognCat_2.jpg" height=100 width=100/>
+<img src="../Images/DognCat_2.jpg" height=90 width=110/>
 <br>
 <br><br>
 <br>
-<input type="button" onclick="parent.setURL('NewAppointment.jsp')">New Appointment</a>
+<input class= "iframebutton" type="button" value="New Appointment" onclick="parent.setURL('NewAppointment.jsp')">
 <br>
 <br>
-<input type="button" onclick="parent.setURL('AppointmentsForADay.jsp')">Today's Appointments</a>
+<input class="iframebutton" type="button" value="Today's Appointments" onclick="parent.setURL('AppointmentsForADay.jsp')">
 </h6>
 </form>
 </body>
