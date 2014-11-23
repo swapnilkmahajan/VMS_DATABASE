@@ -93,19 +93,19 @@
 }
 
 .dark-matter .iframebutton{
-  -webkit-border-radius: 12;
-  -moz-border-radius: 12;
-  border-radius: 12px;
-  font-family: Arial;
-  color: #1f2652;
-  font-size: 12px;
-  background: #b8c7d1;
+  -webkit-border-radius: 6;
+  -moz-border-radius: 6;
+  border-radius: 6px;
+  font-family: Georgia;
+  color: #131521;
+  font-size: 10px;
+  background: #b8ada4;
   padding: 10px 20px 10px 20px;
-  border: solid #3e4347 2px;
+  border: solid #3e4347 1px;
   text-decoration: none;
 }
 .dark-matter .iframebutton:hover {
-   background: #7d868c;
+    background: #d2d4d6;
   text-decoration: none;
 }
 
