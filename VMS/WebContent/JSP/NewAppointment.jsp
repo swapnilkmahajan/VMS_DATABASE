@@ -17,7 +17,7 @@
 </head>
 <link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 <body>
-<form class="dark-matter">
+<form action="${pageContext.request.contextPath}/NewAppointment" class="dark-matter">
 <input type="hidden" name="petid">
 <h1>New Appointment</h1>
 Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="basic-grey" type="text" id="datepicker" /> 
@@ -128,7 +128,7 @@ End Time:
 Notes:
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<textarea rows=20 ></textarea> 
+<textarea rows=20 name="notes"></textarea> 
 
 
 </form>

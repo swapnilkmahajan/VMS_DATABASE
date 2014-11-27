@@ -14,12 +14,12 @@ function setiframeURL(url){
 <link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 
 <body>
-<form class="dark-matter">
+<form action="${pageContext.request.contextPath}/NewPet" class="dark-matter">
 <h1> New Pet Details</h1>
 <input type="hidden" name="petownerid">
 *Breed: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="breed">
 <br>
-*Color: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="breed">
+*Color: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="color">
 <br>
 DOB: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="dob">
 <br>

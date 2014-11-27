@@ -31,7 +31,7 @@ function setURL(url){
 	<input type="button" onclick="setURL('NewPetDetails.jsp')" class="button" value="New Pet Details"> &nbsp; &nbsp;
 	<input type="button" onclick="setURL('NewAppointment.jsp')" value="Appointment" class="button"> &nbsp; &nbsp;
 	<input type="button" onclick="setURL('HealthRecords.jsp')" class="button" value="Health Records"> &nbsp; &nbsp; 
-	<input type="button" onclick="setURL('SearchRecords.jsp.jsp')" class="button" value="Search Records"> &nbsp; &nbsp; 
+	<input type="button" onclick="setURL('SearchRecords.jsp')" class="button" value="Search Records"> &nbsp; &nbsp; 
 	<input type="button" onclick="setURL('Payments.jsp')" class="button" value="Payments"> &nbsp; &nbsp;   
 	&nbsp; 
 <br>

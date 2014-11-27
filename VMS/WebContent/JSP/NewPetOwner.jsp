@@ -43,7 +43,7 @@ function validateEmail()
 </head>
 <link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 <body>
-<form class="dark-matter" name="petOwnerForm" onSubmit="return validateForm()">
+<form action="${pageContext.request.contextPath}/NewPetOwner" class="dark-matter" name="petOwnerForm" onSubmit="return validateForm()">
 <h1>New Pet Owner Details</h1>
 
 <h2>Basic Details: </h2>
@@ -51,15 +51,15 @@ Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="
 <br>
 Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="email" onBlur="return validateEmail()"/>
 <br>
-Profession:&nbsp;&nbsp; <input type="text"/>
+Profession:&nbsp;&nbsp; <input type="text" name="profession"/>
 <br>
 <h2>Contact Details: </h2>
 <br>
 Primary Number:&nbsp;&nbsp;&nbsp; <input type="text" name="primaryPhoneNumber"/>
 <br>
-Phone Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"/>
+Phone Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="secondaryPhoneNumber"/>
 <br>
-Fax:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text"/>
+Fax:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="fax"/>
 <br>
 <br>
 <br>
