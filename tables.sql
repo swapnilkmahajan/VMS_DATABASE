@@ -187,23 +187,24 @@ where apt.pet_id = d.dog_id;
 
 /* Procedure for fetching appointment details by date and doctor */
 
-create or replace procedure vms_database.fetch_appointments(for_date varchar2, doc_id number)
+create or replace procedure vms_database.fetch_appointments(for_date varchar2, doc_id number,
+app_id out number, pet_id out number, start_time out date, end_time out date,
+owner out varchar2, emailid out varchar2, pet_name out varchar2)
 as
- 
-cursor apt_details is 
-select * from vms_database.pet_details_for_appointment_vw where trunc(starts) = trunc(to_date (for_date ,'mm/dd/yyyy'))
- and doc = doc_id order by starts asc;
-begin
 
-for apt_det in apt_details
-loop
-DBMS_OUTPUT.PUT_LINE ( 'doc = ' || apt_det.doc );
-DBMS_OUTPUT.PUT_LINE ( 'starts = ' || apt_det.starts );
-DBMS_OUTPUT.PUT_LINE ( 'ends = ' || apt_det.ends );
-DBMS_OUTPUT.PUT_LINE ( 'apt_det.owner = ' || apt_det.owner );
-DBMS_OUTPUT.PUT_LINE ( 'apt_detemail = ' || apt_det.email );
-DBMS_OUTPUT.PUT_LINE ( 'apt_det.petname = ' || apt_det.petname );
-end loop;
+var_appintment vms_database.pet_details_for_appointment_vw.appintment%type,,
+var_petid vms_database.pet_details_for_appointment_vw.petid%type,,
+var_starts vms_database.pet_details_for_appointment_vw.starts%type,,
+var_ends vms_database.pet_details_for_appointment_vw.ends%type,,
+var_owner vms_database.pet_details_for_appointment_vw.owner%type,,
+var_email vms_database.pet_details_for_appointment_vw.email%type,,
+
+var_petname vms_database.pet_details_for_appointment_vw.petname%type,
+begin
+select appintment, petid, starts, ends, owner, email, petname
+into var_appintment,var_petid ,var_starts,var_ends ,var_owner,var_email,var_petname
+ from vms_database.pet_details_for_appointment_vw where trunc(starts) = trunc(to_date (for_date ,'mm/dd/yyyy'))
+ and doc = doc_id order by starts asc;
 end;
 /
 

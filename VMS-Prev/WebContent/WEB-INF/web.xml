@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>VMS-Prev</display-name>
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.Login</servlet-class>
+  </servlet>
+    <servlet>
+    <servlet-name>NewPetOwnerServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.NewPetOwner</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>NewPetServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.NewPet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>NewAppointmentServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.NewAppointment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AppointmentForADayServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.AppointmentForADay</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NewPetOwnerServlet</servlet-name>
+    <url-pattern>/NewPetOwner</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NewPetServlet</servlet-name>
+    <url-pattern>/NewPet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NewAppointmentServlet</servlet-name>
+    <url-pattern>/NewAppointment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AppointmentForADayServlet</servlet-name>
+    <url-pattern>/AppointmentForADay</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>//JSP/LogMeIn.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
