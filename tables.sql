@@ -143,6 +143,13 @@ END;
 
 */
 
+/* Initializin sequences */
+
+select vms_database.person_id_seq.nextval from dual;
+select vms_database.pet_id_seq.nextval from dual;
+select vms_database.apt_id_seq.nextval from dual;
+select vms_database.bill_paid_id_seq.nextval from dual;
+
 
 /*  Views for Appointment */
 
@@ -194,7 +201,7 @@ DBMS_OUTPUT.PUT_LINE ( 'apt_detemail = ' || apt_det.email );
 DBMS_OUTPUT.PUT_LINE ( 'apt_det.petname = ' || apt_det.petname );
 end loop;
 end;
-
+/
 
 create or replace procedure vms_database.add_new_pet_owner(own_name varchar2, mailid varchar2,
                                               profess varchar2 default null,
@@ -202,6 +209,7 @@ create or replace procedure vms_database.add_new_pet_owner(own_name varchar2, ma
                                               fax number default null, result out varchar2)
 as                                              
 user_exists number(1);
+seq_val vms_database.person_id.pid%type;
  
 begin
 select count(*) into user_exists from vms_database.petowner where name=own_name and email_address = mailid;
@@ -210,7 +218,7 @@ result := 'DUPLICATE';
 else 
     begin
     insert into vms_database.person_id values (vms_database.person_id_seq.nextval);
-    insert into vms_database.petowner values (vms_database.person_id_seq.currval, own_name, mailid, profess);
+    insert into vms_database.petowner values (vms_database.person_id_seq.currval , own_name, mailid, profess);
     insert into vms_database.contactdetails values (vms_database.person_id_seq.currval, 'OWNER', prmary_ph, 'PRIMARY');
     
     if secon_ph is not null then
@@ -225,11 +233,10 @@ else
     exception
     when others then
         Rollback;
-        result:='ERROR';    
+	dbms_output.put_line('ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM);
+        result:= 'ERROR';    
     end;
 end if;
 end;
-
-/
 
 /

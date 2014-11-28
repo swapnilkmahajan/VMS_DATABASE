@@ -1,12 +1,11 @@
 
-SQL*Plus: Release 11.2.0.1.0 Production on Sun Nov 23 17:03:59 2014
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Nov 27 19:22:35 2014
 
-Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
 
 
 Connected to:
-Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
-With the Partitioning, OLAP, Data Mining and Real Application Testing options
+Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
 
 
 User dropped.
@@ -677,6 +676,26 @@ Sequence created.
 Sequence created.
 
 
+   NEXTVAL
+----------
+	 1
+
+
+   NEXTVAL
+----------
+	 1
+
+
+   NEXTVAL
+----------
+	 1
+
+
+   NEXTVAL
+----------
+	 1
+
+
 View created.
 
 
@@ -685,6 +704,8 @@ View created.
 
 Procedure created.
 
+
+Procedure created.
+
 No errors.
-Disconnected from Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - 64bit Production
-With the Partitioning, OLAP, Data Mining and Real Application Testing options
+Disconnected from Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production
