@@ -44,8 +44,8 @@ gender varchar2(6) not null check (gender in ('MALE','FEMALE'))
 create table vms_database.Dog(
 dog_id number(10) primary key references vms_database.Pet(pet_id),
 name varchar2(50) not null,
-kennel_club_number number(25) unique,
-microchip_number varchar2(30) unique
+kennel_club_number varchar2(11) unique,
+microchip_number number(15) unique
 );
 
 create table vms_database.Cat(
@@ -90,6 +90,12 @@ bill_id number(20) references vms_database.BillingInfo(bill_id),
 paid_amount double precision not null
 );
 
+create table singular(
+id int primary key);
+
+insert into singular values(1);
+
+commit;
 /* sequences for auto incrementing primary keys*/
 
 create sequence vms_database.person_id_seq
@@ -162,7 +168,7 @@ and P.PET_OWNER = O.OWN_ID;
 create or replace view vms_database.pet_details_for_appointment_vw as 
 select
 apt.attending_doc as doc,
-apt.apt_id as appintment,
+apt.apt_id as appt,
 apt.pet_id as petid,
 apt.start_time as starts,
 apt.end_time as ends,
@@ -174,7 +180,7 @@ where apt.pet_id = c.cat_id
 union
 select
 apt.attending_doc as doc,
-apt.apt_id as appintment,
+apt.apt_id as appt,
 apt.pet_id as petid,
 apt.start_time as starts,
 apt.end_time as ends,
