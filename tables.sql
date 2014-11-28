@@ -162,6 +162,8 @@ and P.PET_OWNER = O.OWN_ID;
 create or replace view vms_database.pet_details_for_appointment_vw as 
 select
 apt.attending_doc as doc,
+apt.apt_id as appintment,
+apt.pet_id as petid,
 apt.start_time as starts,
 apt.end_time as ends,
 apt.name as owner,
@@ -172,6 +174,8 @@ where apt.pet_id = c.cat_id
 union
 select
 apt.attending_doc as doc,
+apt.apt_id as appintment,
+apt.pet_id as petid,
 apt.start_time as starts,
 apt.end_time as ends,
 apt.name as owner,
