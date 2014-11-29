@@ -334,17 +334,17 @@ create or replace procedure vms_database.addNewPet(owner_id number, pname varcha
  else
     begin
     if var_dob is not null then
-        insert into vms_database.pet values (vms_database.pet_id_seq.nextval, owner_id, upper(breed), upper(color),to_date(DOB,'mm/dd/yyyy'),upper(gender));
+        insert into vms_database.pet values (vms_database.pet_id_seq.nextval, owner_id, breed, color,to_date(DOB,'mm/dd/yyyy'),upper(gender));
     else
-        insert into vms_database.pet values (vms_database.pet_id_seq.nextval, owner_id, upper(breed), upper(color),null,upper(gender));
+        insert into vms_database.pet values (vms_database.pet_id_seq.nextval, owner_id, breed, color,null,upper(gender));
     end if;
     
     if upper(pet_type) = 'DOG' then 
-        insert into vms_database.dog values (vms_database.pet_id_seq.currval, upper(pname), var_kci, var_mchip);
+        insert into vms_database.dog values (vms_database.pet_id_seq.currval, pname, var_kci, var_mchip);
     end if;
     
     if upper(pet_type) = 'CAT' then 
-        insert into vms_database.cat values (vms_database.pet_id_seq.currval, upper(pname), var_regnum);
+        insert into vms_database.cat values (vms_database.pet_id_seq.currval, pname, var_regnum);
     end if;
     
     result:= 'SUCCESS';
