@@ -9,6 +9,8 @@ public class PetOwner {
 	private long fax = 0;
 	
 	private boolean insertionOwnerDetails;
+	private boolean duplicate;
+	private boolean insertionError;
 	
 	public String getName() {
 		return name;
@@ -56,5 +58,25 @@ public class PetOwner {
 		// TODO Auto-generated method stub
 		return insertionOwnerDetails;
 	}
-	
+
+	public void setDuplicate(boolean b) {
+		// TODO Auto-generated method stub
+		duplicate  = b;
+	}
+
+	public boolean isDuplicate() {
+		// TODO Auto-generated method stub
+		return duplicate;
+	}
+
+	public void setInsertionError(boolean b) {
+		// TODO Auto-generated method stub
+		insertionError= b;
+	}
+
+	public boolean isInsertionError() {
+		// TODO Auto-generated method stub
+		return insertionError;
+	}
+
 }

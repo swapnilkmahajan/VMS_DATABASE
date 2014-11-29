@@ -1,5 +1,5 @@
 
-SQL*Plus: Release 11.2.0.2.0 Production on Thu Nov 27 19:22:35 2014
+SQL*Plus: Release 11.2.0.2.0 Production on Fri Nov 28 22:01:16 2014
 
 Copyright (c) 1982, 2014, Oracle.  All rights reserved.
 
@@ -664,6 +664,15 @@ Table created.
 Table created.
 
 
+Table created.
+
+
+1 row created.
+
+
+Commit complete.
+
+
 Sequence created.
 
 
@@ -700,6 +709,15 @@ View created.
 
 
 View created.
+
+
+View created.
+
+
+View created.
+
+
+Procedure created.
 
 
 Procedure created.

@@ -1,25 +1,19 @@
 package com.northeastern.database.project;
 
 public class Dog {
-	private String name;
-	private long kciNumber;
-	private String mcNumber;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public long getKciNumber() {
+	private String kciNumber = "";
+	private long mcNumber = 0;
+	
+	public String getKciNumber() {
 		return kciNumber;
 	}
-	public void setKciNumber(long kciNumber) {
+	public void setKciNumber(String kciNumber) {
 		this.kciNumber = kciNumber;
 	}
-	public String getMcNumber() {
+	public long getMcNumber() {
 		return mcNumber;
 	}
-	public void setMcNumber(String mcNumber) {
+	public void setMcNumber(long mcNumber) {
 		this.mcNumber = mcNumber;
 	}
 	

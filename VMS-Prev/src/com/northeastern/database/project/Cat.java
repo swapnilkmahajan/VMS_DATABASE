@@ -1,14 +1,8 @@
 package com.northeastern.database.project;
 
 public class Cat {
-	private String name;
-	private long regNumber;
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	private long regNumber = 0;
+	
 	public long getRegNumber() {
 		return regNumber;
 	}

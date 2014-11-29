@@ -51,13 +51,21 @@ public class NewPetOwner extends HttpServlet {
 				out.println("alert('Pet Owner successfully added');");  
 				out.println("</script>");
 			}
-			else{
+			if (petOwner.isInsertionError()){
 				PrintWriter out = response.getWriter();  
 				response.setContentType("text/html");  
 				out.println("<script type=\"text/javascript\">");  
 				out.println("alert('Pet Owner not added. Please try again later');");  
 				out.println("</script>");
 				//System.out.println("Record was not inserted in the database");
+			}
+			if (petOwner.isDuplicate()){
+				PrintWriter out = response.getWriter();  
+				response.setContentType("text/html");  
+				out.println("<script type=\"text/javascript\">");  
+				out.println("alert('Duplicate pet owner record exists in the system. Please check the details and try again');");  
+				out.println("</script>");
+				//System.out.println("Duplicate record exists in the database");
 			}
 		}
 		catch(Exception e){

@@ -11,7 +11,7 @@
   </servlet>
   <servlet>
     <servlet-name>NewPetServlet</servlet-name>
-    <servlet-class>com.northeastern.database.project.NewPet</servlet-class>
+    <servlet-class>com.northeastern.database.project.NewPetDetails</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>NewAppointmentServlet</servlet-name>
@@ -21,7 +21,10 @@
     <servlet-name>AppointmentForADayServlet</servlet-name>
     <servlet-class>com.northeastern.database.project.AppointmentForADay</servlet-class>
   </servlet>
-  
+  <servlet>
+    <servlet-name>SearchPetOwnerServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.SearchPetOwner</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -32,7 +35,7 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>NewPetServlet</servlet-name>
-    <url-pattern>/NewPet</url-pattern>
+    <url-pattern>/NewPetDetails</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>NewAppointmentServlet</servlet-name>
@@ -41,6 +44,10 @@
   <servlet-mapping>
     <servlet-name>AppointmentForADayServlet</servlet-name>
     <url-pattern>/AppointmentForADay</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchPetOwnerServlet</servlet-name>
+    <url-pattern>/SearchPetOwner</url-pattern>
   </servlet-mapping>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
