@@ -191,6 +191,22 @@ from vms_database.appointment_details_vw apt, vms_database.dog d
 where apt.pet_id = d.dog_id;
 
 
+create or replace view vms_database.all_pet_pet_owners_vw as
+select p.*, po.*, cd.* from vms_database.pet p, vms_database.petowner po,  vms_database.contactdetails cd
+where P.PET_OWNER = PO.OWN_ID
+and cd.PER_ID =  PO.OWN_ID
+and CD.CONTACT_TYPE = 'PRIMARY';
+
+create or replace view vms_database.all_pt_All_details_vw as 
+select  vw.*, c.name as pet_name, c.reg_number as c_reg_no, null as dkci ,  null as dmchip, 'CAT' as pet_type  
+from vms_database.all_pet_pet_owners_vw vw, vms_database.cat c where 
+C.CAT_ID = VW.PET_ID
+union
+select  vw.*, d.name as pet_name, null as c_reg_no, d.kennel_club_number as dkci, d.microchip_number as dmchip, 'DOG' as pet_type  
+from vms_database.all_pet_pet_owners_vw vw, vms_database.dog d where
+D.DOG_ID = VW.PET_ID;
+
+
 /* Procedure for fetching appointment details by date and doctor */
 
 create or replace procedure vms_database.fetch_appointments(for_date varchar2, doc_id number)
