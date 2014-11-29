@@ -193,24 +193,23 @@ where apt.pet_id = d.dog_id;
 
 /* Procedure for fetching appointment details by date and doctor */
 
-create or replace procedure vms_database.fetch_appointments(for_date varchar2, doc_id number,
-app_id out number, pet_id out number, start_time out date, end_time out date,
-owner out varchar2, emailid out varchar2, pet_name out varchar2)
+create or replace procedure vms_database.fetch_appointments(for_date varchar2, doc_id number)
 as
-
-var_appintment vms_database.pet_details_for_appointment_vw.appintment%type,,
-var_petid vms_database.pet_details_for_appointment_vw.petid%type,,
-var_starts vms_database.pet_details_for_appointment_vw.starts%type,,
-var_ends vms_database.pet_details_for_appointment_vw.ends%type,,
-var_owner vms_database.pet_details_for_appointment_vw.owner%type,,
-var_email vms_database.pet_details_for_appointment_vw.email%type,,
-
-var_petname vms_database.pet_details_for_appointment_vw.petname%type,
-begin
-select appintment, petid, starts, ends, owner, email, petname
-into var_appintment,var_petid ,var_starts,var_ends ,var_owner,var_email,var_petname
- from vms_database.pet_details_for_appointment_vw where trunc(starts) = trunc(to_date (for_date ,'mm/dd/yyyy'))
+ 
+cursor apt_details is 
+select * from vms_database.pet_details_for_appointment_vw where trunc(starts) = trunc(to_date (for_date ,'mm/dd/yyyy'))
  and doc = doc_id order by starts asc;
+begin
+
+for apt_det in apt_details
+loop
+DBMS_OUTPUT.PUT_LINE ( 'doc = ' || apt_det.doc );
+DBMS_OUTPUT.PUT_LINE ( 'starts = ' || apt_det.starts );
+DBMS_OUTPUT.PUT_LINE ( 'ends = ' || apt_det.ends );
+DBMS_OUTPUT.PUT_LINE ( 'apt_det.owner = ' || apt_det.owner );
+DBMS_OUTPUT.PUT_LINE ( 'apt_detemail = ' || apt_det.email );
+DBMS_OUTPUT.PUT_LINE ( 'apt_det.petname = ' || apt_det.petname );
+end loop;
 end;
 /
 
@@ -250,4 +249,111 @@ else
 end if;
 end;
 
+/
+
+
+create or replace procedure vms_database.addNewPet(owner_id number, pname varchar2, breed varchar2, color varchar2,
+ DOB varchar2, gender varchar2, pet_type varchar2, kci varchar2, mchip number, regnum number, result OUT varchar2)
+ 
+ as
+ 
+ pet_exists number(10);
+ var_dob date;
+ var_kci vms_database.Dog.kennel_club_number%type;
+ var_mchip vms_database.Dog.microchip_number%type;
+ var_regnum vms_database.Cat.reg_number%type;
+ dup_kci number(1) := 0;
+ dup_mchip number(1):= 0;
+ dup_regnum number(1) := 0;
+ begin
+ 
+ if kci = '' then
+    var_kci := null;
+ else
+    var_kci := kci;
+ end if;
+ 
+ if mchip = 0 then
+    var_mchip := null;
+ else
+    var_mchip := mchip;
+ end if; 
+ 
+ if regnum = 0 then
+    var_regnum := null;
+ else
+    var_regnum := regnum;
+ end if;
+ 
+ if DOB = '' then
+        var_dob := null;
+    else
+       var_dob:= to_date(DOB,'mm/dd/yyyy');
+ end if;
+ 
+ if upper(pet_type) = 'DOG' then
+    select count(*) into pet_exists from vms_database.pet p, vms_database.dog d where
+    P.PET_OWNER = owner_id and
+    upper(P.BREED) = upper(breed) and
+    upper(P.COLOR) = upper(color) and 
+    upper(gender) = upper(P.GENDER) and
+    upper(D.NAME) = upper(pname);
+    /*D.KENNEL_CLUB_NUMBER = var_kci and
+    D.MICROCHIP_NUMBER = var_mchip;*/
+    
+    if var_kci is not null then
+    select count(*) into dup_kci from vms_database.dog where kennel_club_number = var_kci;
+     end if;
+     
+     if var_mchip is not null then
+        select count(*) into dup_mchip from vms_database.dog where microchip_number = var_mchip;
+     end if;
+ else
+    select count(*) into pet_exists from vms_database.pet p, vms_database.cat c where
+    P.PET_OWNER = owner_id and
+    upper(P.BREED) = upper(breed) and
+    upper(P.COLOR) = upper(color) and 
+    upper(gender) = upper(P.GENDER) and
+    upper(C.NAME) = upper(pname);
+    -- c.reg_number = var_regnum;
+    
+    if var_regnum is not null then
+    select count(*) into dup_regnum from vms_database.cat where reg_number = var_regnum; 
+    end if;
+ 
+ end if;
+ 
+/* DBMS_OUTPUT.PUT_LINE ( 'pet_exists = ' || pet_exists );
+ DBMS_OUTPUT.PUT_LINE ( 'dup_kci = ' || dup_kci );
+ DBMS_OUTPUT.PUT_LINE ( 'dup_mchip = ' || dup_mchip );
+ DBMS_OUTPUT.PUT_LINE ( 'dup_regnum = ' || dup_regnum );*/
+ 
+ 
+ if (pet_exists <> 0) or (dup_kci <> 0) or (dup_mchip <> 0) or (dup_regnum <> 0) THEN
+ result:= 'DUPLICATE';
+ else
+    begin
+    if var_dob is not null then
+        insert into vms_database.pet values (vms_database.pet_id_seq.nextval, owner_id, upper(breed), upper(color),to_date(DOB,'mm/dd/yyyy'),upper(gender));
+    else
+        insert into vms_database.pet values (vms_database.pet_id_seq.nextval, owner_id, upper(breed), upper(color),null,upper(gender));
+    end if;
+    
+    if upper(pet_type) = 'DOG' then 
+        insert into vms_database.dog values (vms_database.pet_id_seq.currval, upper(pname), var_kci, var_mchip);
+    end if;
+    
+    if upper(pet_type) = 'CAT' then 
+        insert into vms_database.cat values (vms_database.pet_id_seq.currval, upper(pname), var_regnum);
+    end if;
+    
+    result:= 'SUCCESS';
+    exception
+    when others then
+        Rollback;
+   /* dbms_output.put_line('ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM);*/
+        result:= 'ERROR';    
+    end;
+ end if;
+end;
 /
