@@ -9,11 +9,19 @@
  <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
  <script type="text/javascript" src="functions.js"></script>
  <script>
+ function validateForm()
+ {
+	 if(document.getElementById('weight').value=="")
+		 {
+		 alert("Please enter weight of the pet");
+		 return false;
+		 }
+ }
  function setRowCount(){
 	 var table = document.getElementById("vaccinationdetails");
 	 var lastRow = table.rows.length;
 	 document.getElementById('rowcount').value=lastRow;
-	 alert(document.getElementById('rowcount').value);
+
  }
  function Add(){
 
@@ -34,7 +42,6 @@
 	    e1.class='select';
 	    e1.id= 'vaccination' + iteration;
 	    e1.name= 'vaccination' + iteration;
-	    alert(e1.name);
 	    var option = document.createElement("option");
 	    option.text = "Rabies";
 	    var option1 = document.createElement("option");
@@ -49,7 +56,7 @@
 	    e2.type = 'text';
 	    e2.name = 'datepicker'+ iteration;
 	    e2.id =  'datepicker' + iteration;
-	    alert(e2.name);
+	    e2.setAttribute('required','true');
 	    e2.class='basic-grey';
 	    cellRight.appendChild(e2);
 	    
@@ -76,14 +83,14 @@
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/CSS/DarkMatter.css" />
 
 <body>
-<form class="dark-matter" action="${pageContext.request.contextPath}/HealthRecords">
+<form class="dark-matter" action="${pageContext.request.contextPath}/HealthRecords" onsubmit="return validateForm()">
 <input type="hidden" name="aptid" id="aptid" value="<%=request.getAttribute("aptid")%>">
 <input type="hidden" name="rowcount" id="rowcount">
 
 <h2>Health Record Details:</h2>
 Height: &nbsp;&nbsp;<input type="text" name="height">
 <br>
-Weight: &nbsp;<input type="text" name="weight">
+*Weight: &nbsp;<input type="text" name="weight" id="weight">
 <h2>Vaccination Details:</h2>
 
 <input type="button" name="addRow" value="Add a Vaccine" class="button" onclick="Add();">
@@ -99,6 +106,8 @@ Weight: &nbsp;<input type="text" name="weight">
 		</tr>
 	</tbody>
 </table>
+<br>
+<br>
 <input type="submit" value="Submit" class="button" onclick="setRowCount();">
 </form>
 

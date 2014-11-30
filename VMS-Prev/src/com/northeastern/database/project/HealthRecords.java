@@ -30,6 +30,15 @@ public class HealthRecords extends HttpServlet {
 				String[] vaccination = new String[rowcount];
 				String[] dates = new String[rowcount];
 				//rowcount--;
+				
+				double height = 0;
+				double weight = 0;
+				int aptid = 0;
+				
+				height = Double.parseDouble(request.getParameter("height"));
+				weight = Double.parseDouble(request.getParameter("weight"));
+				aptid = Integer.parseInt(request.getParameter("aptid"));
+				
 				for(int j = 0, i = 1 ; i < rowcount ; j++ , i++){
 					String vaccinenum = "vaccination" + i;
 					String dp = "datepicker" + i;
@@ -65,6 +74,7 @@ public class HealthRecords extends HttpServlet {
 			      {
 			    	  obj[i] = new Object[] {vaccination[i], dates[i]};
 			      }
+
 			      // descriptor for OBJECT type defined in database
 			      StructDescriptor projectTypeDesc = StructDescriptor.createDescriptor("VMS_DATABASE.VACCINATION_REC", conn);
 
@@ -83,10 +93,10 @@ public class HealthRecords extends HttpServlet {
 			      // array holding two ProjectType objects
 			      ARRAY arrayOfvac = new ARRAY(projectTypeArrayDesc, conn, str);
 			      
-			      callStmt.setInt(1, Integer.parseInt(request.getParameter("aptid")));
+			      callStmt.setInt(1,aptid);
 			      callStmt.setARRAY(2, arrayOfvac);
-			      callStmt.setDouble(3, java.lang.Double.parseDouble(request.getParameter("height")));
-			      callStmt.setDouble(4, java.lang.Double.parseDouble(request.getParameter("weight")));
+			      callStmt.setDouble(3, height);
+			      callStmt.setDouble(4, weight);
 			      callStmt.registerOutParameter(5, OracleTypes.VARCHAR);
 			      callStmt.execute();
 			      
@@ -117,7 +127,7 @@ public class HealthRecords extends HttpServlet {
 				    	PrintWriter out = response.getWriter();  
 						response.setContentType("text/html");  
 						out.println("<script type=\"text/javascript\">");  
-						out.println("alert('Health details for this appointment already exist.');");  
+						out.println("alert('Health details for this appointment already exist. Please try again later');");  
 						out.println("</script>");				    
 						}
 				    

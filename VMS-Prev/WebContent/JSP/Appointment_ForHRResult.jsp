@@ -4,15 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-  
-  <script>
-  $(document).ready(function() {
-    $("#datepicker").datepicker();
-  });
-  </script>
+
 <script>
 function populateAptID(id)
 {
@@ -29,22 +21,19 @@ function populateAptID(id)
 
 <body>
 <form class="dark-matter" action="${pageContext.request.contextPath}/Appointment_ForHRResult">
-<h1>Appointments and Calenders</h1>
+<h1>Choose an appointment to enter health records</h1>
 <input type="hidden" name="aptid" id="aptid">
-<br><br><br>
-Date: <input class="basic-grey" type="text" id="datepicker" /> 
-<input type="submit" value="Search" class="button">
+<br>
 <table class="mytable">
-                    <thead>
-                        <tr>
-                        	<th>Choose </th>
-                            <th>Appointment Start Time </th>
-                            <th>Appointment End Time  </th>
-                            <th>Pet Owner Name</th>
+
+                    <tbody>
+                    <tr>
+                        	<td>Choose </td>
+                            <td>Appointment Start Time </td>
+                            <td>Appointment End Time  </td>
+                            <td>Pet Owner Name</td>
 
                         </tr>
-                    </thead>
-                    <tbody>
                     <c:forEach items="${appointmentsforhr}" var="aptdetails">
                     <tr>
                     	<td> <input type="radio" value="${aptdetails.getApptId()}" name="petid"  onclick="populateAptID('${aptdetails.getApptId()}')"> </td>       

@@ -18,20 +18,17 @@ function populatePetID(id)
 </script>
 <body>
 <form class="dark-matter" action="${pageContext.request.contextPath}/ChoosePet">
-<input type="text" name="petid" id="petid">
+<input type="hidden" name="petid" id="petid">
 <input type="hidden" name="petownerid" value="<%=request.getAttribute("ownerid")%>">
 <h1> Choose Pet to set an appointment:</h1>
-<br><br><br>
-<table class="table tableshow">
-                    <thead>
-                        <tr>
-                        	<th> Choose </th>
-                            <th>Pet Name</th>
-							<th>Pet Type</th>
-                        </tr>
-                    </thead>
-
+<br>
+<table class="mytable">
                     <tbody>
+                     <tr>
+                        	<td>Choose </td>
+                            <td>Pet Name</td>
+							<td>Pet Type</td>
+                        </tr>
                     <c:forEach items="${pets}" var="pets">
                     <tr>
                     	<td> <input type="radio" value="${pets.getId()}" name="petid"  onclick="populatePetID('${pets.getId()}')">
@@ -39,11 +36,11 @@ function populatePetID(id)
     					<td>${pets.getType()}</td>
                     </tr>
                     </c:forEach>
-
                     </tbody>
 
  </table>
-<input type="submit" name="submit" value="Submit">
+ <br><br>
+<input type="submit" class="button" value="Submit">
 </form>
 </body>
 </html>

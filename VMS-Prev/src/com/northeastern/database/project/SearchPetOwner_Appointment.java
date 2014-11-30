@@ -1,6 +1,7 @@
 package com.northeastern.database.project;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -24,13 +25,13 @@ public class SearchPetOwner_Appointment extends HttpServlet {
 		System.out.println("owner-id: " + ownerid);
 			
 		if(ownerid==0){
-			response.sendRedirect("JSP/SearchPetOwner_Appointment.jsp");
+			PrintWriter out = response.getWriter();  
+			response.setContentType("text/html");  
+			out.println("<script type=\"text/javascript\">");  
+			out.println("alert('Enter correct date.');");  
+			out.println("</script>");
 		}
 		else{	
-			//request.setAttribute("ownerid", ownerid);
-			//RequestDispatcher view = request.getRequestDispatcher("/JSP/NewAppointment.jsp");
-			//response.sendRedirect("JSP/NewPetDetails.jsp");
-			//view.forward(request, response);
 			pets = AppointmentDAO.newAppointment(ownerid);
 			
 			if(pets.size()==0){

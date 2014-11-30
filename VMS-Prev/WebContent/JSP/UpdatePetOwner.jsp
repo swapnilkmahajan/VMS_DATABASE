@@ -38,13 +38,13 @@ function validateForm()
 <h2>Basic Details: </h2>
 Name: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="name" value="<%=request.getAttribute("ownername")%>"/>
 <br>
-Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="email" value="<%=request.getAttribute("email")%>" disabled/>
+Email: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="email" value="<%=request.getAttribute("email")%>" onBlur="return validateEmail()"/>
 <br>
 Profession:&nbsp;&nbsp; <input type="text" name="profession" value="<%=request.getAttribute("profession")%>"/>
 <br>
 <h2>Contact Details: </h2>
 <br>
-Primary Number:&nbsp;&nbsp;&nbsp; <input type="text" name="primaryPhoneNumber" value="<%=request.getAttribute("contact")%>"/>
+Primary Number:&nbsp;&nbsp;&nbsp; <input type="text" name="primaryPhoneNumber" value="<%=request.getAttribute("primarynumber")%>"/>
 <br>
 Phone Number: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="secondaryPhoneNumber" value="<%=request.getAttribute("secondarynumber")%>"/>
 <br>

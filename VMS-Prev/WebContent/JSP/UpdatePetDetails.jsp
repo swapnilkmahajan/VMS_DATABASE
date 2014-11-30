@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>New PetDetails</title>
+<title>Update PetDetails</title>
  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
@@ -40,14 +40,20 @@
 	  	alert("Please enter pet type");
 	  	return false;  	
 	  }
-	  
   }
   </script>
   <script>
   $(document).ready(function() {
     $("#datepicker").datepicker();
-    $(".dogdetails").hide();
-    $(".catdetails").hide();
+    if(document.getElementById('pettype_cat').checked==true){
+    	 $(".catdetails").show();
+    	 $(".dogdetails").hide();
+    }
+    if(document.getElementById('pettype_dog').checked==true){
+   	 $(".catdetails").hide();
+   	 $(".dogdetails").show();
+   }
+    
   });
   </script>
  <script language="JavaScript" type="text/javascript">
@@ -73,29 +79,29 @@
 </head>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/CSS/DarkMatter.css" />
 <body>
-<form action="${pageContext.request.contextPath}/NewPetDetails" class="dark-matter" onsubmit="copyDetails();return validateForm();">
-<h1> New Pet Details</h1>
+<form action="${pageContext.request.contextPath}/UpdatePetDetails" class="dark-matter" onsubmit="copyDetails();return validateForm();">
+<h1> Update Pet Details</h1>
 <input type="hidden" name="petownerid" value="<%=request.getAttribute("ownerid")%>">
 <input type="hidden" name="kcinumber" id="kcinumber">
 <input type="hidden" name="microchipnumber" id="microchipnumber">
 <input type="hidden" name="regnumber" id="regnumber">
-*Name: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="petname" id="name">
+*Name: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="petname" id="name" value="<%=request.getAttribute("name")%>">
 <br>
 
-*Breed: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="breed" id="breed">
+*Breed: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="breed" id="breed" value="<%=request.getAttribute("breed")%>">
 <br>
-*Color: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="color" id="color">
+*Color: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="color" id="color" value="<%=request.getAttribute("color")%>">
 <br>
-DOB: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="datepicker"  name="dob">
+DOB: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="datepicker"  name="dob" value="<%=request.getAttribute("dob")%>">
 <br>
 *Gender:&nbsp;&nbsp; 
-<input type="radio" id="gender_male" value="female" class="radio" name="gender">Female
-<input type="radio" id="gender_female" value="male" class="radio" name="gender">Male
+<input type="radio" id="gender_male" value="female" class="radio" name="gender" checked="<%=request.getAttribute("gender_male")%>">Female
+<input type="radio" id="gender_female" value="male" class="radio" name="gender" checked="<%=request.getAttribute("gender_female")%>">Male
 <br>
 <hr>
 <h3>*Pet Type: </h3>
-<input type="radio" id="pettype_cat" value="Cat" class="radio" name="pet"  onclick="showhidediv('cat');">Cat
-<input type="radio"  id="pettype_dog" value="Dog" class="radio" name="pet"  onclick="showhidediv('dog');">Dog
+<input type="radio" id="pettype_cat" value="Cat" class="radio" name="pet"  onclick="showhidediv('cat');" checked="<%=request.getAttribute("pettype_cat")%>">Cat
+<input type="radio"  id="pettype_dog" value="Dog" class="radio" name="pet"  onclick="showhidediv('dog');" checked="<%=request.getAttribute("pettype_dog")%>">Dog
 <br>
 <br>
 <div class="dogdetails" id="dogdetails">

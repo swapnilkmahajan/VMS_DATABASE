@@ -42,6 +42,10 @@
     <servlet-class>com.northeastern.database.project.UpdatePetOwnerDetails</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>UpdateOwnerDetailsServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.UpdateOwnerDetails</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>UpdatePetDetailsServlet</servlet-name>
     <servlet-class>com.northeastern.database.project.UpdatePetDetails</servlet-class>
   </servlet>
@@ -68,6 +72,22 @@
   <servlet>
     <servlet-name>HealthRecordsServlet</servlet-name>
     <servlet-class>com.northeastern.database.project.HealthRecords</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdatePaymentsServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.UpdatePayments</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateAppointmentServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.UpdateAppointment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateThisAppointmentServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.UpdateThisAppointment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ViewDuesServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.ViewDues</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -111,6 +131,10 @@
     <url-pattern>/UpdatePetOwnerDetails</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>UpdateOwnerDetailsServlet</servlet-name>
+    <url-pattern>/UpdateOwnerDetails</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>UpdatePetDetailsServlet</servlet-name>
     <url-pattern>/UpdatePetDetails</url-pattern>
   </servlet-mapping>
@@ -137,6 +161,22 @@
   <servlet-mapping>
   <servlet-name>HealthRecordsServlet</servlet-name>
     <url-pattern>/HealthRecords</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePaymentsServlet</servlet-name>
+    <url-pattern>/UpdatePayments</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateAppointmentServlet</servlet-name>
+    <url-pattern>/UpdateAppointment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateThisAppointmentServlet</servlet-name>
+    <url-pattern>/UpdateThisAppointment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ViewDuesServlet</servlet-name>
+    <url-pattern>/ViewDues</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

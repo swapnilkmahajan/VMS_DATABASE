@@ -25,37 +25,47 @@ public class NewAppointment extends HttpServlet {
 			String notes = request.getParameter("notes");
 			int petid = Integer.parseInt(request.getParameter("petid"));
 			
+			
 			System.out.println(start_dt_time);
 			System.out.println(end_dt_time);
 			int count = 0;
 			int insertres= 0;
 			
-			count = AppointmentDAO.addNewAppointment(start_dt_time,end_dt_time);
-								
-			if (count >= 1 ) {
+			if(request.getParameter("petownerid").equals("")){
 				PrintWriter out = response.getWriter();  
 				response.setContentType("text/html");  
 				out.println("<script type=\"text/javascript\">");  
 				out.println("alert('Appointment clashes with other scheduled.');");  
 				out.println("</script>");
-			} 
+			}
 			else{
-			
-				insertres = AppointmentDAO.addNewAppointmentHelper(petid,1,start_dt_time,end_dt_time,notes);
-										
-				if (insertres == 0) {
+				count = AppointmentDAO.addNewAppointment(start_dt_time,end_dt_time);
+									
+				if (count >= 1 ) {
 					PrintWriter out = response.getWriter();  
 					response.setContentType("text/html");  
 					out.println("<script type=\"text/javascript\">");  
-					out.println("alert('Error occured, Please try again!');");  
+					out.println("alert('Appointment clashes with other scheduled.');");  
 					out.println("</script>");
-				}
+				} 
 				else{
-					PrintWriter out = response.getWriter();  
-					response.setContentType("text/html");  
-					out.println("<script type=\"text/javascript\">");  
-					out.println("alert('Appointment scheduled');");  
-					out.println("</script>");
+				
+					insertres = AppointmentDAO.addNewAppointmentHelper(petid,1,start_dt_time,end_dt_time,notes);
+											
+					if (insertres == 0) {
+						PrintWriter out = response.getWriter();  
+						response.setContentType("text/html");  
+						out.println("<script type=\"text/javascript\">");  
+						out.println("alert('Error occured, Please try again!');");  
+						out.println("</script>");
+					}
+					else{
+						PrintWriter out = response.getWriter();  
+						response.setContentType("text/html");  
+						out.println("<script type=\"text/javascript\">");  
+						out.println("alert('Appointment scheduled');");  
+						out.println("</script>");
+					}
 				}
 			}
 		}

@@ -90,10 +90,14 @@ bill_id number(20) references vms_database.BillingInfo(bill_id),
 paid_amount double precision not null
 );
 
-create table singular(
-id int primary key);
+CREATE INDEX  VMS_DATABASE.OWNER_NAME_SEARCH  ON VMS_DATABASE.PETOWNER(upper(NAME)) ;
 
-insert into singular values(1);
+ALTER SYSTEM SET QUERY_REWRITE_ENABLED=TRUE;
+
+
+CREATE INDEX  VMS_DATABASE.DOG_NAME_SEARCH  ON VMS_DATABASE.DOG(upper(NAME)) ;
+CREATE INDEX  VMS_DATABASE.CAT_NAME_SEARCH  ON VMS_DATABASE.CAT(upper(NAME)) ;
+CREATE INDEX  VMS_DATABASE.APT_START_TIME  ON VMS_DATABASE.APPOINTMENT (trunc(start_time));
 
 commit;
 /* sequences for auto incrementing primary keys*/
@@ -190,7 +194,7 @@ d.name as petname
 from vms_database.appointment_details_vw apt, vms_database.dog d
 where apt.pet_id = d.dog_id;
 
-
+/*
 create or replace view vms_database.all_pet_pet_owners_vw as
 select p.*, po.*, cd.* from vms_database.pet p, vms_database.petowner po,  vms_database.contactdetails cd
 where P.PET_OWNER = PO.OWN_ID
@@ -205,7 +209,39 @@ union
 select  vw.*, d.name as pet_name, null as c_reg_no, d.kennel_club_number as dkci, d.microchip_number as dmchip, 'DOG' as pet_type  
 from vms_database.all_pet_pet_owners_vw vw, vms_database.dog d where
 D.DOG_ID = VW.PET_ID;
+*/
 
+create or replace view vms_database.all_pet_pet_owners_vw as
+select  po.*, cd.* from  vms_database.petowner po,  vms_database.contactdetails cd
+where cd.PER_ID =  PO.OWN_ID
+and CD.CONTACT_TYPE = 'PRIMARY';
+
+create or replace view vms_database.pet_cat_vw as 
+select p.*, c.* from vms_database.pet p, vms_database.cat c where C.CAT_ID = P.PET_ID;
+
+
+create or replace view vms_database.pet_dog_vw as 
+select p.*, d.* from vms_database.pet p, vms_database.dog D where D.DOG_ID = P.PET_ID;
+
+create or replace view vms_database.all_pt_All_details_vw as
+select vw.*,pc.PET_ID , pc.PET_OWNER, pc.COLOR, pc.DATE_OF_BIRTH ,pc.GENDER, pc.breed as breed , pc.name as pet_name, pc.reg_number as c_reg_no, null as dkci ,  null as dmchip, NVL2(pc.name ,'CAT', NULL) as pet_type
+from vms_database.all_pet_pet_owners_vw vw 
+left join vms_database.pet_cat_vw pc on VW.OWN_ID = pc.pet_owner
+union
+select  vw.*,d.PET_ID , d.PET_OWNER, d.COLOR, d.DATE_OF_BIRTH ,d.GENDER ,d.breed as breed ,  d.name as pet_name, null as c_reg_no, d.kennel_club_number as dkci, d.microchip_number as dmchip, NVL2(d.name ,'DOG', NULL) as pet_type
+from vms_database.all_pet_pet_owners_vw vw 
+left join vms_database.pet_dog_vw d on VW.OWN_ID = d.pet_owner;
+
+/* all dues and pets and owners and contact */
+
+create or replace view vms_database.all_dues_apt as 
+select due.* , ap_vw.* from 
+(select  pb.*, b.* from vms_database.paidbill pb,
+(select min(bi.bill_id) billno, sum(bi.amount) total, bi.apt_id  aptid  from vms_database.billinginfo bi group by bi.apt_id) b
+where pb.bill_id = b.billno) due,
+(select apt.apt_id ,to_char(apt.start_time,'mm/dd/yyyy')as aptdate ,to_char(apt.start_time,'hh24:mi') aptstart ,to_char(apt.end_time,'hh24:mi') as aptend, 
+ vw.pet_name, vw.name, VW.PHONE_NUMBER  from vms_database.appointment apt , vms_database.all_pt_All_details_vw vw 
+where  apt.pet_id = vw.pet_id) ap_vw where due.aptid = ap_vw.apt_id;
 
 /* Procedure for fetching appointment details by date and doctor */
 
@@ -463,7 +499,7 @@ BEGIN
 END;
 /
 
-create or replace procedure vms_database.update_pet_owner(own_id number, own_name varchar2, mailid varchar2,
+create or replace procedure vms_database.update_pet_owner(in_own_id number, own_name varchar2, mailid varchar2,
                                               profess varchar2 default null,
                                               prmary_ph number, secon_ph number default null,
                                               fax number default null, result out varchar2)
@@ -480,13 +516,13 @@ begin
         var_profess:= profess;
     end if;
     
-    if secon_ph = '' then
+    if secon_ph = 0 then
         var_secon_ph:= null;
     else 
         var_secon_ph:= secon_ph;
     end if;
     
-    if fax = '' then
+    if fax = 0 then
         var_fax:= null;
     else 
         var_fax:= fax;
@@ -494,34 +530,34 @@ begin
     
         begin
 
-            update vms_database.petowner po set PO.NAME = own_name, PO.EMAIL_ADDRESS = mailid, PO.PROFESSION = var_profess
-             where PO.OWN_ID = own_id;
+			update vms_database.petowner po set PO.NAME = own_name, PO.PROFESSION = var_profess
+            where PO.OWN_ID = in_own_id;
               
             update vms_database.contactdetails cd set CD.PHONE_NUMBER = prmary_ph 
-            where CD.CONTACT_TYPE = 'PRIMARY' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id;
+            where CD.CONTACT_TYPE = 'PRIMARY' and CD.ROLE = 'OWNER' and CD.PER_ID = in_own_id;
             
             select count(*) into var_sec_exists from vms_database.contactdetails cd
-            where CD.CONTACT_TYPE = 'SECONDARY' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id; 
+            where CD.CONTACT_TYPE = 'SECONDARY' and CD.ROLE = 'OWNER' and CD.PER_ID = in_own_id; 
             
             if  (var_sec_exists = 0) then
                 if (var_secon_ph is not null) then
-                    insert into vms_database.contactdetails values (own_id, 'OWNER', secon_ph, 'SECONDARY');
+                    insert into vms_database.contactdetails values (in_own_id, 'OWNER', secon_ph, 'SECONDARY');
                 end if;
             else 
                  update vms_database.contactdetails cd set CD.PHONE_NUMBER = var_secon_ph
-                 where CD.CONTACT_TYPE = 'SECONDARY' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id; 
+                 where CD.CONTACT_TYPE = 'SECONDARY' and CD.ROLE = 'OWNER' and CD.PER_ID = in_own_id; 
             end if;
             
             select count(*) into var_sec_exists from vms_database.contactdetails cd
-            where CD.CONTACT_TYPE = 'FAX' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id;
+            where CD.CONTACT_TYPE = 'FAX' and CD.ROLE = 'OWNER' and CD.PER_ID = in_own_id;
             
             if (var_sec_exists = 0) then
                 if (var_fax is not null) then
-                    insert into vms_database.contactdetails values (own_id, 'OWNER', fax, 'FAX');
+                    insert into vms_database.contactdetails values (in_own_id, 'OWNER', fax, 'FAX');
                 end if;
             else
                 update vms_database.contactdetails cd set CD.PHONE_NUMBER = var_fax
-                where CD.CONTACT_TYPE = 'FAX' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id; 
+                where CD.CONTACT_TYPE = 'FAX' and CD.ROLE = 'OWNER' and CD.PER_ID = in_own_id; 
             end if;
             
             commit;
@@ -530,7 +566,7 @@ begin
         when others then
             Rollback;
         dbms_output.put_line('ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM);
-            result:= 'ERROR';    
+            result:= 'ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM;    
         end;
 
 end;

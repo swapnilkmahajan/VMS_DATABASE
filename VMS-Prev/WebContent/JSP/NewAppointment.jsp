@@ -8,7 +8,25 @@
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-  
+  <script>
+  function isAfter(){
+	  var fromTime=document.getElementById('starttime').value;
+	  var toTime=document.getElementById('endtime').value;
+	  
+	  var fromTokens = fromTime.split(":");
+	  var toTokens = toTime.split(":");
+	  if(document.getElementById('datepicker').value=="")
+		  {
+		  alert("Please choose an appointment date");
+		  return false;
+		  }
+	  if (fromTokens[0] > toTokens[0] || (fromTokens[0] == toTokens[0] && fromTokens[1] >= toTokens[1]))
+		  {
+		  	alert("Start time should be less than End time");
+		  	return false;
+		  }
+	}
+  </script>
   <script>
   $(document).ready(function() {
     $("#datepicker").datepicker();
@@ -17,15 +35,15 @@
 </head>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 <body>
-<form action="${pageContext.request.contextPath}/NewAppointment" class="dark-matter">
+<form action="${pageContext.request.contextPath}/NewAppointment" class="dark-matter" onsubmit="return isAfter();">
 <input type="hidden" name="petid" value="<%=request.getAttribute("petid")%>">
-<input type="text" name="petownerid" value="<%=request.getAttribute("petownerid")%>">
+<input type="hidden" name="petownerid" value="<%=request.getAttribute("petownerid")%>">
 <h1>New Appointment</h1>
-Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="basic-grey" type="text" id="datepicker" name="appointmentdate"/> 
+*Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="basic-grey" type="text" id="datepicker" name="appointmentdate"/> 
 <br>
 Start Time:
 &nbsp;&nbsp;
-<select name="starttime">
+<select name="starttime" id="starttime">
 <option value="09:00:00">09:00 am </option>
 <option value="09:15:00">09:15 am </option>
 <option value="09:30:00">09:30 am </option>
@@ -76,7 +94,7 @@ Start Time:
 <br>
 End Time:
 &nbsp;&nbsp;&nbsp;
-<select name="endtime">
+<select name="endtime" id="endtime">
 <option value="09:15:00">09:15 am </option>
 <option value="09:30:00">09:30 am </option>
 <option value="09:45:00">09:45 am </option>
@@ -130,6 +148,7 @@ Notes:
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <textarea rows=20 name="notes"></textarea> 
+<br>
 <input type="submit" value="Submit" class="button">
 
 </form>

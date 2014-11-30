@@ -7,10 +7,13 @@ public class PetOwner {
 	private long primaryNumber = 0;
 	private long secondaryNumber = 0;
 	private long fax = 0;
-	
+	int id;
 	private boolean insertionOwnerDetails;
 	private boolean duplicate;
 	private boolean insertionError;
+	
+	private boolean updatesuccess;
+	private boolean updateerror;
 	
 	public String getName() {
 		return name;
@@ -20,6 +23,12 @@ public class PetOwner {
 	}
 	public String getEmail() {
 		return email;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public void setEmail(String email) {
 		this.email = email;
@@ -77,6 +86,18 @@ public class PetOwner {
 	public boolean isInsertionError() {
 		// TODO Auto-generated method stub
 		return insertionError;
+	}
+	public boolean isUpdatesuccess() {
+		return updatesuccess;
+	}
+	public void setUpdatesuccess(boolean updatesuccess) {
+		this.updatesuccess = updatesuccess;
+	}
+	public boolean isUpdateerror() {
+		return updateerror;
+	}
+	public void setUpdateerror(boolean updateerror) {
+		this.updateerror = updateerror;
 	}
 
 }

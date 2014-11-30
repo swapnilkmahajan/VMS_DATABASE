@@ -105,4 +105,55 @@ public class PetOwnerDAO {
 		}
 		return po;
 	}
+
+	public static PetOwner updateOwnerDetails(PetOwner petowner) {
+		// TODO Auto-generated method stub
+		try{
+			String res;
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			System.out.println("\nConnection Established!");
+
+			String USER = "SYSTEM";
+			String PASS = "root";
+			String URL ="jdbc:oracle:thin:[vms_database/vms_database]@localhost:1521/XE";
+			Connection conn = DriverManager.getConnection(URL,USER,PASS);
+			System.out.println("Connected to database-PetOwnerDAO!!");
+			
+			String query = "{call vms_database.update_pet_owner(?,?,?,?,?,?,?,?)}";
+		    CallableStatement cstmt = conn.prepareCall(query);
+		    
+		    cstmt.setInt(1,petowner.getId());
+		    cstmt.setString(2,petowner.getName());
+		    cstmt.setString(3,petowner.getEmail());
+		    cstmt.setString(4,petowner.getProfession());
+		    cstmt.setLong(5,petowner.getPrimaryNumber());
+		    cstmt.setLong(6,petowner.getSecondaryNumber());
+		    cstmt.setLong(7, petowner.getFax());
+		    cstmt.registerOutParameter(8, OracleTypes.VARCHAR);
+		    cstmt.execute();
+
+		    // Get the data
+		    res = cstmt.getString(8);
+		    System.out.println(cstmt.getString(8));
+		    
+		    // Close statement and connection
+		    cstmt.close();
+		    conn.close();
+
+		    if(res.equals("ERROR")){
+		    	petowner.setUpdateerror(true);
+		    	petowner.setUpdatesuccess(false);
+		    }
+		    
+		    if(res.equals("SUCCESS")){
+		    	petowner.setUpdateerror(false);
+		    	petowner.setUpdatesuccess(true);
+		    }
+		    
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return petowner;
+	}
 }

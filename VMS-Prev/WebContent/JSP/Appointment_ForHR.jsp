@@ -12,21 +12,30 @@
     $("#datepicker").datepicker();
   });
   </script>
+  <script>
+  function validateForm(){
+	 if( document.getElementById('datepicker').value =="")
+		 {
+		 alert("Please choose a date of appointment to enter health record details")
+		 return false;
+		 }
+  }
+  </script>
   <SCRIPT type="text/javascript">
   function getAppointments() {
   location.href = "${pageContext.request.contextPath}/Appointment_ForHR";}
   </SCRIPT>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Health Records</title>
 </head>
-<link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" />
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/CSS/DarkMatter.css" />
 
 <body>
-<form class="dark-matter" action="${pageContext.request.contextPath}/Appointment_ForHR">
-<h1>Appointments and Calenders</h1>
+<form class="dark-matter" action="${pageContext.request.contextPath}/Appointment_ForHR" onSubmit="return validateForm()">
+<h1>Choose an appointment date to enter health records</h1>
 
-<br><br><br>
-Date: <input class="basic-grey" type="text" id="datepicker" name="appointmentdate"/> 
+<br>
+*Date: <input class="basic-grey" type="text" id="datepicker" name="appointmentdate"/> 
 <input type="submit" value="Search" class="button">
 
 
