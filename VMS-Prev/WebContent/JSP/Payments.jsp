@@ -4,11 +4,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Payments</title>
 </head>
 <link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 <body>
-<form class="dark-matter">
+<form class="dark-matter" action="${pageContext.request.contextPath}/Payments">
+
+<input type="hidden" name="aptid" value="<%=request.getAttribute("aptid")%>">
 <h1> Payment Details: </h1>
 Consultation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="consultation">
 <br>
@@ -21,7 +23,7 @@ Other: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 <hr>
 Paid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="paid"><br>
 Due: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="due"><br>
-
+<input type="submit" value="Submit" class="button">
 </form>
 </body>
 </html>

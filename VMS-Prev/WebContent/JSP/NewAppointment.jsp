@@ -15,10 +15,11 @@
   });
   </script>
 </head>
-<link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 <body>
 <form action="${pageContext.request.contextPath}/NewAppointment" class="dark-matter">
-<input type="hidden" name="petid">
+<input type="hidden" name="petid" value="<%=request.getAttribute("petid")%>">
+<input type="text" name="petownerid" value="<%=request.getAttribute("petownerid")%>">
 <h1>New Appointment</h1>
 Date:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="basic-grey" type="text" id="datepicker" name="appointmentdate"/> 
 <br>

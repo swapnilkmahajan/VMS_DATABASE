@@ -25,7 +25,8 @@ function validateForm()
 </script>
 
 </head>
-<link rel="stylesheet" href="../CSS/style.css" media="screen" type="text/css" /></head>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/CSS/style.css" />
+
 <body>
  <div class="login-card">
 	  <form action="${pageContext.request.contextPath}/Login" method="post" name="logmein">

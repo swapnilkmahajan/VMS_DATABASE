@@ -25,7 +25,10 @@ public class PetDAO {
 		System.out.println("mchip: "+mchip);
 		long regnum = cat.getRegNumber();
 		System.out.println("regnum: "+regnum);
+		
 		String res;
+		int ownerid;
+		
 		try{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			System.out.println("\nConnection Established!");
@@ -36,7 +39,7 @@ public class PetDAO {
 			Connection conn = DriverManager.getConnection(URL,USER,PASS);
 			System.out.println("Connected to database-PetDAO!!");
 			
-			String query = "{call vms_database.addNewPet(?,?,?,?,?,?,?,?,?,?,?)}";
+			String query = "{call vms_database.addNewPet(?,?,?,?,?,?,?,?,?,?,?,?)}";
 	
 			CallableStatement cstmt = conn.prepareCall(query);
 		
@@ -51,27 +54,33 @@ public class PetDAO {
 			cstmt.setLong(9,mchip);
 			cstmt.setLong(10,regnum);
 			cstmt.registerOutParameter(11, OracleTypes.VARCHAR);
+			cstmt.registerOutParameter(12, OracleTypes.INTEGER);
 			cstmt.executeUpdate();
 			
 			res = cstmt.getString(11);
 		    System.out.println(cstmt.getString(11));
 			
+		    ownerid = cstmt.getInt(12);
+		    System.out.println(ownerid);
 			cstmt.close();
 			conn.close();
 		    
 		    if(res.equals("ERROR")){
+		    	pet.setId(ownerid);
 		    	pet.setInsertionerror(true);
 		    	pet.setDuplicate(false);
 		    	pet.setSuccess(false);
 		    }
 		    
 		    if(res.equals("DUPLICATE")){
+		    	pet.setId(ownerid);
 		    	pet.setDuplicate(true);
 		    	pet.setSuccess(false);
 		    	pet.setInsertionerror(false);
 		    }
 		    
 		    if(res.equals("SUCCESS")){
+		    	pet.setId(ownerid);
 		    	pet.setSuccess(true);
 		    	pet.setDuplicate(false);
 		    	pet.setInsertionerror(false);

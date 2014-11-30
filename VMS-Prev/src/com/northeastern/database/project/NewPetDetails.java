@@ -11,12 +11,17 @@ public class NewPetDetails extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	public void doGet(HttpServletRequest request,HttpServletResponse response){
+		@SuppressWarnings("unused")
+		int ownerid = 0;
+		@SuppressWarnings("unused")
+		int petid = 0;
 		try{
 			
 			Cat cat = new Cat();
 			Dog dog = new Dog();
 			
 			System.out.println("Pet Owner: " + request.getParameter("petownerid"));
+			ownerid = Integer.parseInt(request.getParameter("petownerid"));
 			System.out.println("breed:" + request.getParameter("breed"));
 			System.out.println("color:" + request.getParameter("color"));
 			System.out.println("dob:" + request.getParameter("dob"));
@@ -50,6 +55,8 @@ public class NewPetDetails extends HttpServlet {
 			}
 			
 			pet = PetDAO.insertPetDetails(pet,dog,cat);
+			ownerid = pet.getOwnerid();
+			petid = pet.getId();
 			
 			if (pet.isSuccess()){
 				PrintWriter out = response.getWriter();  
@@ -71,7 +78,7 @@ public class NewPetDetails extends HttpServlet {
 				PrintWriter out = response.getWriter();  
 				response.setContentType("text/html");  
 				out.println("<script type=\"text/javascript\">");  
-				out.println("alert('Duplicate pet record exists in the system. Please check the details and try again');");  
+				out.println("alert('Duplicate pet record exists in the system. Please check the details and try again');");
 				out.println("</script>");
 			}
 		}

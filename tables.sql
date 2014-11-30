@@ -269,7 +269,7 @@ end;
 
 
 create or replace procedure vms_database.addNewPet(owner_id number, pname varchar2, breed varchar2, color varchar2,
- DOB varchar2, gender varchar2, pet_type varchar2, kci varchar2, mchip number, regnum number, result OUT varchar2)
+ DOB varchar2, gender varchar2, pet_type varchar2, kci varchar2, mchip number, regnum number, result OUT varchar2, new_pet_id out number)
  
  as
  
@@ -347,6 +347,7 @@ create or replace procedure vms_database.addNewPet(owner_id number, pname varcha
  
  if (pet_exists <> 0) or (dup_kci <> 0) or (dup_mchip <> 0) or (dup_regnum <> 0) THEN
  result:= 'DUPLICATE';
+ NEW_PET_ID := 0;
  else
     begin
     if var_dob is not null then
@@ -364,12 +365,174 @@ create or replace procedure vms_database.addNewPet(owner_id number, pname varcha
     end if;
     
     result:= 'SUCCESS';
+    new_pet_id:= vms_database.pet_id_seq.currval;
     exception
     when others then
         Rollback;
    /* dbms_output.put_line('ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM);*/
         result:= 'ERROR';    
+	NEW_PET_ID := 0;
     end;
  end if;
 end;
+/
+
+create or replace procedure vms_database.new_bill_info(apt number, cons double precision, deworm double precision,
+ medi double precision, vacc double precision, other double precision, paid double precision, result out varchar2)
+as 
+
+min_bil_id VMS_DATABASE.BILLINGINFO.BILL_ID%type;
+
+begin
+
+    begin
+        insert into  vms_database.BillingInfo values (vms_database.bill_paid_id_seq.nextval, apt, 'Consultation', cons); 
+        min_bil_id :=  vms_database.bill_paid_id_seq.currval;
+        
+        insert into vms_database.BillingInfo values (vms_database.bill_paid_id_seq.nextval, apt, 'De-Worming', deworm);
+        insert into vms_database.BillingInfo values (vms_database.bill_paid_id_seq.nextval, apt, 'Medication', medi);
+        insert into vms_database.BillingInfo values (vms_database.bill_paid_id_seq.nextval, apt, 'Vaccination', vacc);
+        insert into vms_database.BillingInfo values (vms_database.bill_paid_id_seq.nextval, apt, 'Other', other);
+        
+        
+        insert into vms_database.PaidBill values (min_bil_id, paid);
+        commit;
+        result:='SUCCESS';
+    exception
+    when others then
+        rollback;
+        result:='ERROR';
+    end;
+end;
+/
+
+
+CREATE OR REPLACE TYPE vms_database.vaccination_rec AS OBJECT( 
+  vac_name varchar2(100),
+  next_dose VARCHAR2(25)
+);
+/
+ -- My-arr
+CREATE OR REPLACE TYPE vms_database.vaccination_array AS TABLE OF vaccination_rec;
+/
+
+CREATE OR REPLACE PROCEDURE vms_database.add_vaccinations(vacc_id number, vac_details in vaccination_array,
+ in_height double precision, in_weight double precision,  result out varchar2)
+AS
+
+dup_health number(3);
+dup_vac number(3); 
+
+BEGIN
+
+   select count(*) into dup_health from vms_database.AppointmentHealthRecord where rec_id = vacc_id;
+   select count(*) into dup_vac from vms_database.vaccination where vac_id =  vacc_id;
+  if (dup_vac = 0) and (dup_health = 0) then
+      
+      IF vac_details IS NOT NULL THEN
+          begin
+            insert into vms_database.AppointmentHealthRecord values(vacc_id, in_height, in_weight);
+          
+            FOR v_d IN 1..vac_details.LAST
+            LOOP
+            
+              INSERT INTO vms_database.Vaccination
+                VALUES (vacc_id, vac_details(v_d).vac_name,
+                        to_date(vac_details(v_d).next_dose,'mm/dd/yyyy'));
+            END LOOP;
+            
+            commit;
+            result:='SUCCESS';
+                
+          exception 
+          when others then
+            rollback;
+            result:= 'ERROR';
+          end;
+      END IF;
+      
+  else
+       if dup_health <> 0 then
+            result:= 'DUPLICATE HEALTH';
+       end if;
+
+       if dup_vac <> 0 then
+            result:= 'DUPLICATE VAC';
+       end if;
+  end if;
+END;
+/
+
+create or replace procedure vms_database.update_pet_owner(own_id number, own_name varchar2, mailid varchar2,
+                                              profess varchar2 default null,
+                                              prmary_ph number, secon_ph number default null,
+                                              fax number default null, result out varchar2)
+as                                              
+var_sec_exists number(3);
+var_profess VMS_DATABASE.PETOWNER.PROFESSION%type;
+var_secon_ph VMS_DATABASE.CONTACTDETAILS.PHONE_NUMBER%type;
+var_fax VMS_DATABASE.CONTACTDETAILS.PHONE_NUMBER%type;
+ 
+begin
+    if profess = '' then
+        var_profess:= null;
+    else 
+        var_profess:= profess;
+    end if;
+    
+    if secon_ph = '' then
+        var_secon_ph:= null;
+    else 
+        var_secon_ph:= secon_ph;
+    end if;
+    
+    if fax = '' then
+        var_fax:= null;
+    else 
+        var_fax:= fax;
+    end if;
+    
+        begin
+
+            update vms_database.petowner po set PO.NAME = own_name, PO.EMAIL_ADDRESS = mailid, PO.PROFESSION = var_profess
+             where PO.OWN_ID = own_id;
+              
+            update vms_database.contactdetails cd set CD.PHONE_NUMBER = prmary_ph 
+            where CD.CONTACT_TYPE = 'PRIMARY' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id;
+            
+            select count(*) into var_sec_exists from vms_database.contactdetails cd
+            where CD.CONTACT_TYPE = 'SECONDARY' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id; 
+            
+            if  (var_sec_exists = 0) then
+                if (var_secon_ph is not null) then
+                    insert into vms_database.contactdetails values (own_id, 'OWNER', secon_ph, 'SECONDARY');
+                end if;
+            else 
+                 update vms_database.contactdetails cd set CD.PHONE_NUMBER = var_secon_ph
+                 where CD.CONTACT_TYPE = 'SECONDARY' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id; 
+            end if;
+            
+            select count(*) into var_sec_exists from vms_database.contactdetails cd
+            where CD.CONTACT_TYPE = 'FAX' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id;
+            
+            if (var_sec_exists = 0) then
+                if (var_fax is not null) then
+                    insert into vms_database.contactdetails values (own_id, 'OWNER', fax, 'FAX');
+                end if;
+            else
+                update vms_database.contactdetails cd set CD.PHONE_NUMBER = var_fax
+                where CD.CONTACT_TYPE = 'FAX' and CD.ROLE = 'OWNER' and CD.PER_ID = own_id; 
+            end if;
+            
+            commit;
+            result:='SUCCESS';
+        exception
+        when others then
+            Rollback;
+        dbms_output.put_line('ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM);
+            result:= 'ERROR';    
+        end;
+
+end;
+
 /

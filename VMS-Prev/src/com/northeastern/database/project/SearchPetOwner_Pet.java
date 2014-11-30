@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class SearchPetOwner extends HttpServlet {
+public class SearchPetOwner_Pet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -22,12 +22,11 @@ public class SearchPetOwner extends HttpServlet {
 		System.out.println("owner-id: " + ownerid);
 			
 		if(ownerid==0){
-			response.sendRedirect("JSP/SearchPetOwner.jsp");
+			response.sendRedirect("JSP/SearchPetOwner_Pet.jsp");
 		}
 		else{	
 			request.setAttribute("ownerid", ownerid);
 			RequestDispatcher view = request.getRequestDispatcher("/JSP/NewPetDetails.jsp");
-			//response.sendRedirect("JSP/NewPetDetails.jsp");
 			view.forward(request, response);
 		}
 	}

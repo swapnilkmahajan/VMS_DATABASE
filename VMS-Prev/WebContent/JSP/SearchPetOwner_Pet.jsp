@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 
 <body>
-<form class="dark-matter" action="${pageContext.request.contextPath}/SearchPetOwner">
+<form class="dark-matter" action="${pageContext.request.contextPath}/SearchPetOwner_Pet">
 <h2> Enter Pet Owner Email:</h2>
 <br>
 <input type="text" name="owneremail">

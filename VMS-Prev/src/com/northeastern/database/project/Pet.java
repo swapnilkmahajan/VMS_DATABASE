@@ -2,6 +2,7 @@ package com.northeastern.database.project;
 
 public class Pet {
 	private int ownerid;
+	private int id;
 	private String owner;
 	private String breed;
 	private String color;
@@ -80,6 +81,12 @@ public class Pet {
 	}
 	public void setInsertionerror(boolean insertionerror) {
 		this.insertionerror = insertionerror;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

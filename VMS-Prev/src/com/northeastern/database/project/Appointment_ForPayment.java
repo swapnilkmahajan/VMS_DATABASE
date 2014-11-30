@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AppointmentForADay extends HttpServlet {
+public class Appointment_ForPayment extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {    
-        
+	
 		ArrayList<Appointment> todaysappt= new ArrayList<Appointment>(); 
 		
 		String apDate= request.getParameter("appointmentdate").toString();
@@ -29,8 +29,8 @@ public class AppointmentForADay extends HttpServlet {
 			out.println("</script>");	
 		}
 		else{
-			request.setAttribute("appointments", todaysappt);
-			RequestDispatcher view = request.getRequestDispatcher("/JSP/AppointmentsForADayResult.jsp");
+			request.setAttribute("appointmentsforpayment", todaysappt);
+			RequestDispatcher view = request.getRequestDispatcher("/JSP/Appointment_ForPaymentResult.jsp");
 			view.forward(request, response);
 		}
 	}

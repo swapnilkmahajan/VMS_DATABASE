@@ -22,9 +22,54 @@
     <servlet-class>com.northeastern.database.project.AppointmentForADay</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>SearchPetOwnerServlet</servlet-name>
-    <servlet-class>com.northeastern.database.project.SearchPetOwner</servlet-class>
+    <servlet-name>SearchPetOwnerPetServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.SearchPetOwner_Pet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SearchPetOwnerAppointmentServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.SearchPetOwner_Appointment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ChoosePetServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.ChoosePet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SearchRecordsServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.SearchRecords</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdatePetOwnerDetailsServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.UpdatePetOwnerDetails</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdatePetDetailsServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.UpdatePetDetails</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PaymentsServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.Payments</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Appointment_ForPaymentServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.Appointment_ForPayment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Appointment_ForPaymentResultServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.Appointment_ForPaymentResult</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Appointment_ForHRServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.Appointment_ForHR</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Appointment_ForHRResultServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.Appointment_ForHRResult</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>HealthRecordsServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.HealthRecords</servlet-class>
+  </servlet>
+  
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/Login</url-pattern>
@@ -46,9 +91,54 @@
     <url-pattern>/AppointmentForADay</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>SearchPetOwnerServlet</servlet-name>
-    <url-pattern>/SearchPetOwner</url-pattern>
+    <servlet-name>SearchPetOwnerPetServlet</servlet-name>
+    <url-pattern>/SearchPetOwner_Pet</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchPetOwnerAppointmentServlet</servlet-name>
+    <url-pattern>/SearchPetOwner_Appointment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChoosePetServlet</servlet-name>
+    <url-pattern>/ChoosePet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchRecordsServlet</servlet-name>
+    <url-pattern>/SearchRecords</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePetOwnerDetailsServlet</servlet-name>
+    <url-pattern>/UpdatePetOwnerDetails</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePetDetailsServlet</servlet-name>
+    <url-pattern>/UpdatePetDetails</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PaymentsServlet</servlet-name>
+    <url-pattern>/Payments</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Appointment_ForPaymentServlet</servlet-name>
+    <url-pattern>/Appointment_ForPayment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Appointment_ForPaymentResultServlet</servlet-name>
+    <url-pattern>/Appointment_ForPaymentResult</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Appointment_ForHRServlet</servlet-name>
+    <url-pattern>/Appointment_ForHR</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Appointment_ForHRResultServlet</servlet-name>
+    <url-pattern>/Appointment_ForHRResult</url-pattern>
+  </servlet-mapping>  
+  <servlet-mapping>
+  <servlet-name>HealthRecordsServlet</servlet-name>
+    <url-pattern>/HealthRecords</url-pattern>
+  </servlet-mapping>
+  
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

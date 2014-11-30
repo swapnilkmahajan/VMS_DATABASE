@@ -7,6 +7,7 @@ public class Appointment {
 	private String startTime;
 	private String endTime;
 	private String owner;
+	private String notes;
 	
 	public String getStartTime() {
 		return startTime;
@@ -49,6 +50,12 @@ public class Appointment {
 	}
 	public void setPetId(int petId) {
 		this.petId = petId;
+	}
+	public String getNotes() {
+		return notes;
+	}
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 	private String email;
 	private String petName;
