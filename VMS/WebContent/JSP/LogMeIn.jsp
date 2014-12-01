@@ -8,36 +8,32 @@
 <script>
 function validateForm()
 {
-    if(document.logmein.username.value=="")
+    if(document.getElementById('username').value=="")
     {
       alert("User Name should not be left blank");
-      document.logmein.username.focus();
       return false;
     }
-    else if(document.logmein.password.value=="")
+    if(document.getElementById('password').value=="")
     {
       alert("Password should not be left blank");
-      document.logmein.password.focus();
       return false;
     }
 }
-
 </script>
 
 </head>
-<link rel="stylesheet" href="../CSS/style.css" media="screen" type="text/css" /></head>
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/CSS/style.css" />
+
 <body>
- <div class="login-card">
-	  <form action="${pageContext.request.contextPath}/Login" method="post" name="logmein">
+	  <form class="login-card" action="${pageContext.request.contextPath}/Login" method="post" name="logmein" onsubmit="return validateForm();">
 	  <center>
 	  <h3> Login </h3>
-	  <img src="../Images/vet_doc_3.jpg" height="100" width="150" >
+	  <img src="${pageContext.request.contextPath}/Images/vet_doc_3.jpg" height="100" width="150" >
 	  </center>
 	  <br>
-	  <input type="text" name="username" />
-	  <input type="text" name="password" />
-	  <input type="submit" class="login login-submit" value="login"/>
+	  <input type="text" name="username" id="username"/>
+	  <input type="text" name="password" id="password"/>
+	  <input type="submit" class="login login-submit" value="Login"/>
 	  </form>
-</div>
 </body>
 </html>

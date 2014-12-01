@@ -1,5 +1,7 @@
 package com.northeastern.database.project;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,10 +43,30 @@ public class NewPetOwner extends HttpServlet {
 			
 			petOwner = PetOwnerDAO.insertPetOwnerDetails(petOwner);
 
-			if (petOwner.isOwnerDetailsSuccessful())
-				System.out.println("Record inserted successfully");
-			else
-				System.out.println("Record was not inserted in the database");
+			if (petOwner.isOwnerDetailsSuccessful()){
+				//System.out.println("Record inserted successfully");
+				PrintWriter out = response.getWriter();  
+				response.setContentType("text/html");  
+				out.println("<script type=\"text/javascript\">");  
+				out.println("alert('Pet Owner successfully added');");  
+				out.println("</script>");
+			}
+			if (petOwner.isInsertionError()){
+				PrintWriter out = response.getWriter();  
+				response.setContentType("text/html");  
+				out.println("<script type=\"text/javascript\">");  
+				out.println("alert('Pet Owner not added. Please try again later');");  
+				out.println("</script>");
+				//System.out.println("Record was not inserted in the database");
+			}
+			if (petOwner.isDuplicate()){
+				PrintWriter out = response.getWriter();  
+				response.setContentType("text/html");  
+				out.println("<script type=\"text/javascript\">");  
+				out.println("alert('Duplicate pet owner record exists in the system. Please check the details and try again');");  
+				out.println("</script>");
+				//System.out.println("Duplicate record exists in the database");
+			}
 		}
 		catch(Exception e){
 			e.printStackTrace();

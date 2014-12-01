@@ -12,19 +12,28 @@
     $("#datepicker").datepicker();
   });
   </script>
+  <script>
+  function validateForm(){
+		 if( document.getElementById('datepicker').value =="")
+			 {
+			 alert("Please choose a date of appointment to view appointment details")
+			 return false;
+			 }
+	  }
+  </script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Appointments</title>
 </head>
-<link rel="stylesheet" href="../CSS/form_style.css" media="screen" type="text/css" /></head>
-<body>
-<form class="basic-grey">
+<link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/CSS/DarkMatter.css" />
 
-<h4 class="basic-grey"> 
-Appointments & Calenders
-<br><br><br>
-Date: <input class="basic-grey" type="text" id="datepicker" /> 
-<button> Search</button>
-</h4>
+<body>
+<form class="dark-matter" action="${pageContext.request.contextPath}/AppointmentForADay" onSubmit="return validateForm()">
+<h1>Appointments and Calenders</h1>
+
+<br>
+*Date: <input class="basic-grey" type="text" id="datepicker" name="appointmentdate"/> 
+<input type="submit" value="Search" class="button">
+
 
 
 </form>

@@ -1,20 +1,33 @@
 package com.northeastern.database.project;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.util.Date;
+
+import oracle.jdbc.OracleTypes;
 
 public class PetDAO {
 
-	public static Pet insertPetDetails(Pet pet) {
+	public static Pet insertPetDetails(Pet pet, Dog dog, Cat cat) {
 		// TODO Auto-generated method stub
 		int petOwnerId = pet.getOwnerid();
 		String breed = pet.getBreed();
 		String color = pet.getColor();
-		Date dob = pet.getDob();
+		String dob = pet.getDob();
 		String gender = pet.getGender();
-		//String petOwner = getOwner(petOwnerId);
+		String pettype = pet.getType();
+		String petname = pet.getName();
+		System.out.println("Pet Name" + petname);
+		
+		String kci = dog.getKciNumber();
+		long mchip = dog.getMcNumber();
+		System.out.println("kci: "+kci);
+		System.out.println("mchip: "+mchip);
+		long regnum = cat.getRegNumber();
+		System.out.println("regnum: "+regnum);
+		
+		String res;
+		int ownerid;
 		
 		try{
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -26,26 +39,58 @@ public class PetDAO {
 			Connection conn = DriverManager.getConnection(URL,USER,PASS);
 			System.out.println("Connected to database-PetDAO!!");
 			
-			String query = "insert into vms_database.Pet(pet_id,pet_owner,breed,color,date_of_birth,gender) values (?,?,?,?,?,?)";
+			String query = "{call vms_database.addNewPet(?,?,?,?,?,?,?,?,?,?,?,?)}";
+	
+			CallableStatement cstmt = conn.prepareCall(query);
+		
+			cstmt.setInt(1,petOwnerId);
+			cstmt.setString(2,petname);
+			cstmt.setString(3,breed);
+			cstmt.setString(4,color);
+			cstmt.setString(5, dob);
+			cstmt.setString(6,gender);
+			cstmt.setString(7,pettype);
+			cstmt.setString(8,kci);
+			cstmt.setLong(9,mchip);
+			cstmt.setLong(10,regnum);
+			cstmt.registerOutParameter(11, OracleTypes.VARCHAR);
+			cstmt.registerOutParameter(12, OracleTypes.INTEGER);
+			cstmt.executeUpdate();
 			
-			PreparedStatement ps = conn.prepareStatement(query);
-			//ps.setInt(1,);
-			ps.setInt(2,petOwnerId);
-			ps.setString(3,breed);
-			ps.setString(4,color);
-			ps.setDate(5,(java.sql.Date) dob);
-			ps.setString(6,gender);
-			ps.executeUpdate();
+			res = cstmt.getString(11);
+		    System.out.println(cstmt.getString(11));
 			
-			pet.PetAddedSuccessfully(true);
+		    ownerid = cstmt.getInt(12);
+		    System.out.println(ownerid);
+			cstmt.close();
+			conn.close();
+		    
+		    if(res.equals("ERROR")){
+		    	pet.setId(ownerid);
+		    	pet.setInsertionerror(true);
+		    	pet.setDuplicate(false);
+		    	pet.setSuccess(false);
+		    }
+		    
+		    if(res.equals("DUPLICATE")){
+		    	pet.setId(ownerid);
+		    	pet.setDuplicate(true);
+		    	pet.setSuccess(false);
+		    	pet.setInsertionerror(false);
+		    }
+		    
+		    if(res.equals("SUCCESS")){
+		    	pet.setId(ownerid);
+		    	pet.setSuccess(true);
+		    	pet.setDuplicate(false);
+		    	pet.setInsertionerror(false);
+		    }
 
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			pet.PetAddedSuccessfully(false);
+			pet.setSuccess(false);
 		}
-
 		return pet;
 	}
-
 }
