@@ -39,8 +39,8 @@ public class UpdateAppointment extends HttpServlet {
 
 			PreparedStatement ps = null ;
 			
-			String query = "select to_char(start_time,'mm/dd/yyyy')as aptdate ,to_char(start_time,'hh24:mi')" +
-					" aptstart ,to_char(end_time,'hh24:mi') as aptend, notes from vms_database.appointment where apt_id = ?";
+			String query = "select to_char(start_time,'mm/dd/yyyy')as aptdate ,to_char(start_time,'hh24:mi:ss')" +
+					" aptstart ,to_char(end_time,'hh24:mi:ss') as aptend, notes from vms_database.appointment where apt_id = ?";
 			
 			ps =  conn.prepareStatement(query);
 			ps.setInt(1, aptid);

@@ -11,11 +11,6 @@ $(document).ready(function(){
 	document.getElementById('total').disabled=true;
 	document.getElementById('due').disabled=true;
 	
-	document.getElementById('total').value = parseInt(document.getElementById('consultation').value) +
-	parseInt(document.getElementById('deworming').value)+parseInt(document.getElementById('medication').value)+
-	parseInt(document.getElementById('other').value)+parseInt(document.getElementById('vaccination').value)+
-	
-	document.getElementById('due').disabled= parseInt(document.getElementById('total').value)- parseInt(document.getElementById('paid').value);
 	
 });
 
@@ -35,9 +30,11 @@ function calculatedue(paid)
 
 <link rel="stylesheet" href="../CSS/DarkMatter.css" media="screen" type="text/css" /></head>
 <body>
-<form class="dark-matter" action="${pageContext.request.contextPath}/Payments">
+<form class="dark-matter" action="${pageContext.request.contextPath}/UpdatePayments" >
 
-<input type="hidden" name="aptid" value="<%=request.getAttribute("aptid")%>">
+<input type="hidden" name="billid" value="<%=request.getAttribute("billid")%>">
+<input type="hidden" name="lastdue" value="<%=request.getAttribute("dues")%>">
+
 <h1> Payment Details: </h1>
 Consultation: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="consultation" id="consultation" onblur="calculateTotal(this);"  value="<%=request.getAttribute("consultation")%>">
 <br>
@@ -45,11 +42,11 @@ De-worming: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="d
 Medication: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="medication" id="medication" onblur="calculateTotal(this);"  value="<%=request.getAttribute("medication")%>"><br>
 Vaccination: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="vaccination" id="vaccination" onblur="calculateTotal(this);"  value="<%=request.getAttribute("vaccination")%>"><br>
 Other: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="other" id="other" onblur="calculateTotal(this);"  value="<%=request.getAttribute("other")%>">
-<br>Total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="total" id="total">
+<br>Total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type="text" name="total" id="total" value="<%=request.getAttribute("total")%>">
 
 <hr>
 Paid:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="paid" id="paid" onblur="calculatedue(this);"  value="<%=request.getAttribute("paid")%>"><br>
-Due: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="due" id="due"><br>
+Due: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="due" id="due" value="<%=request.getAttribute("dues")%>"><br>
 <input type="submit" value="Submit" class="button">
 </form>
 </body>

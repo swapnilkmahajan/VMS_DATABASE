@@ -23,7 +23,10 @@ public class SearchRecords extends HttpServlet {
 		String searchbasedon = "";
 		try{
 			searchString = request.getParameter("searchbytext");
-			if (searchString.equals("")){
+			System.out.println("search String : "+ searchString);
+			if(searchString==null)
+				searchString="";
+			if (searchString.equals("") && request.getParameter("pettype").equals("")){
 				PrintWriter out = response.getWriter();  
 				response.setContentType("text/html");  
 				out.println("<script type=\"text/javascript\">");  
@@ -48,10 +51,10 @@ public class SearchRecords extends HttpServlet {
 				searchbasedon = request.getParameter("searchbasedon");
 				if (searchbasedon.equals("OwnerName")){
 				query = "select pet_id, own_id , pet_name, name as ownername, phone_number as contact,email_Address as email," +
-						" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where upper(name) = upper(?)";
+						" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where upper(name) like upper(?)";
 				
 				ps =  conn.prepareStatement(query);
-				ps.setString(1, searchString);
+				ps.setString(1, searchString+"%");
 				
 				}
 				if (searchbasedon.equals("RegistrationorMicrochipNumber")){
@@ -64,17 +67,17 @@ public class SearchRecords extends HttpServlet {
 					}
 					if(request.getParameter("regdetails").equals("Dog")){
 						query = "select pet_id, own_id , pet_name, name as ownername, phone_number as contact,email_Address as email," +
-							" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where dkci = ?";
+							" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where dkci like ?";
 						
 						ps =  conn.prepareStatement(query);
-						ps.setString(1, (searchString));
+						ps.setString(1, (searchString+"%"));
 					}
 				}
 				if (searchbasedon.equals("PetName")){
 					query = "select pet_id, own_id , pet_name, name as ownername, phone_number as contact,email_Address as email," +
-							" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where upper(pet_name) = upper(?)";
+							" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where upper(pet_name) like upper(?)";
 					ps =  conn.prepareStatement(query);
-					ps.setString(1, (searchString));
+					ps.setString(1, (searchString+"%"));
 					}
 				
 				if (searchbasedon.equals("PetType")){
@@ -83,23 +86,23 @@ public class SearchRecords extends HttpServlet {
 							" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where upper(pet_type) = 'CAT'";
 						
 						ps =  conn.prepareStatement(query);
-						ps.setString(1, searchString);
+						//ps.setString(1, searchString);
 						}
 					if (request.getParameter("pettype").equals("Dog")){
 						query = "select pet_id, own_id , pet_name, name as ownername, phone_number as contact,email_Address as email," +
 							" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where upper(pet_type) = 'DOG'";
 						
 						ps =  conn.prepareStatement(query);
-						ps.setString(1, searchString);
+						//ps.setString(1, searchString);
 						
 						}
 					}
 				if (searchbasedon.equals("Breed")){
 					query = "select pet_id, own_id , pet_name, name as ownername, phone_number as contact,email_Address as email," +
-							" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where upper(breed) = upper(?)";
+							" pet_type, breed, dkci, c_reg_no from vms_database.all_pt_All_details_vw where upper(breed) like upper(?)";
 					
 					ps =  conn.prepareStatement(query);
-					ps.setString(1, searchString);
+					ps.setString(1, searchString+"%");
 					
 					}
 				

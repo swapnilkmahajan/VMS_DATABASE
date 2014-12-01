@@ -44,20 +44,24 @@
   </script>
   <script>
   $(document).ready(function() {
+	  alert("hita alo");
     $("#datepicker").datepicker();
     if(document.getElementById('pettype_cat').checked==true){
     	 $(".catdetails").show();
     	 $(".dogdetails").hide();
+    	 copyDetails();
     }
     if(document.getElementById('pettype_dog').checked==true){
    	 $(".catdetails").hide();
    	 $(".dogdetails").show();
+   	copyDetails();
    }
     
   });
   </script>
  <script language="JavaScript" type="text/javascript">
   function showhidediv(value){
+	  
   if(value=='cat')
   {
 	  $(".catdetails").show();
@@ -67,25 +71,27 @@
   {
       $(".dogdetails").show();
       $(".catdetails").hide();
-  }   
+  }
+  
  }
+  
   function copyDetails()
   {
-	  document.getElementById("kcinumber").value=document.getElementById("div_kcinumber").value;
-	  document.getElementById("microchipnumber").value=document.getElementById("div_microchipnumber").value;
-	  document.getElementById("regnumber").value=document.getElementById("div_regnumber").value;
+	  document.getElementById("div_kcinumber").value=document.getElementById("kcinumber").value;
+	  document.getElementById("div_microchipnumber").value=document.getElementById("microchipnumber").value;
+	  document.getElementById("div_regnumber").value=document.getElementById("regnumber").value;
   }
 </script>
 </head>
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/CSS/DarkMatter.css" />
 <body>
-<form action="${pageContext.request.contextPath}/UpdatePetDetails" class="dark-matter" onsubmit="copyDetails();return validateForm();">
+<form action="${pageContext.request.contextPath}/UpdateThisPet" class="dark-matter" onsubmit="return validateForm();">
 <h1> Update Pet Details</h1>
-<input type="hidden" name="petownerid" value="<%=request.getAttribute("ownerid")%>">
-<input type="hidden" name="kcinumber" id="kcinumber">
-<input type="hidden" name="microchipnumber" id="microchipnumber">
-<input type="hidden" name="regnumber" id="regnumber">
-*Name: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="petname" id="name" value="<%=request.getAttribute("name")%>">
+<input type="hidden" name="petid" value="<%=request.getAttribute("petid")%>">
+<input type="text" name="kcinumber" id="kcinumber" value="<%=request.getAttribute("kci")%>">
+<input type="text" name="microchipnumber" id="microchipnumber" value="<%=request.getAttribute("mchip")%>">
+<input type="text" name="regnumber" id="regnumber" value="<%=request.getAttribute("cregno")%>">
+*Name: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="petname" id="name" value="<%=request.getAttribute("petname")%>">
 <br>
 
 *Breed: &nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="breed" id="breed" value="<%=request.getAttribute("breed")%>">
@@ -94,14 +100,16 @@
 <br>
 DOB: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" id="datepicker"  name="dob" value="<%=request.getAttribute("dob")%>">
 <br>
+<!--  -->
 *Gender:&nbsp;&nbsp; 
-<input type="radio" id="gender_male" value="female" class="radio" name="gender" checked="<%=request.getAttribute("gender_male")%>">Female
-<input type="radio" id="gender_female" value="male" class="radio" name="gender" checked="<%=request.getAttribute("gender_female")%>">Male
+<input type="radio" id="gender_male" value="female" class="radio" name="gender" ${male=='true' ? 'checked' : ''} >Female
+<input type="radio" id="gender_female" value="male" class="radio" name="gender" ${female=='true' ? 'checked' : ''} >Male
 <br>
 <hr>
+
 <h3>*Pet Type: </h3>
-<input type="radio" id="pettype_cat" value="Cat" class="radio" name="pet"  onclick="showhidediv('cat');" checked="<%=request.getAttribute("pettype_cat")%>">Cat
-<input type="radio"  id="pettype_dog" value="Dog" class="radio" name="pet"  onclick="showhidediv('dog');" checked="<%=request.getAttribute("pettype_dog")%>">Dog
+   <input type="radio" id="pettype_cat" value="Cat" class="radio" name="pet"  onclick="showhidediv('cat');" ${cat=='true' ? 'checked' : ''} >Cat
+<input type="radio"  id="pettype_dog" value="Dog" class="radio" name="pet"  onclick="showhidediv('dog');" ${dog=='true' ? 'checked' : ''} >Dog 
 <br>
 <br>
 <div class="dogdetails" id="dogdetails">

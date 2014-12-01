@@ -89,6 +89,14 @@
     <servlet-name>ViewDuesServlet</servlet-name>
     <servlet-class>com.northeastern.database.project.ViewDues</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UpdateThisPaymentServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.UpdateThisPayment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateThisPetServlet</servlet-name>
+    <servlet-class>com.northeastern.database.project.UpdateThisPet</servlet-class>
+  </servlet>
   
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
@@ -177,6 +185,14 @@
   <servlet-mapping>
     <servlet-name>ViewDuesServlet</servlet-name>
     <url-pattern>/ViewDues</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateThisPaymentServlet</servlet-name>
+    <url-pattern>/UpdateThisPayment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateThisPetServlet</servlet-name>
+    <url-pattern>/UpdateThisPet</url-pattern>
   </servlet-mapping>
   
   <welcome-file-list>

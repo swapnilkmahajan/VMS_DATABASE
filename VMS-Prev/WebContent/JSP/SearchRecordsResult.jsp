@@ -12,7 +12,7 @@ function setFormAction(value)
 	}
 function populateData(val)
 {
-document.getElementById('petownerid').value=val.value;
+document.getElementById('petid').value=val.value;
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -22,7 +22,7 @@ document.getElementById('petownerid').value=val.value;
 
 <body>
 <form class="dark-matter" id="resultform">
-<input type="text" name="petownerid" id="petownerid">
+<input type="text" name="petid" id="petid">
 <h2>Search Results: </h2>
 <table class="mytable">
                     <tbody>
@@ -41,7 +41,7 @@ document.getElementById('petownerid').value=val.value;
                     <c:forEach items="${records}" var="details">
                     <tr>
                     	
-                    	<td> <input type="radio" value="${details.getOwnerid()}" name="petownerid" onclick="populateData(this);"> </td>       
+                    	<td> <input type="radio" value="${details.getPetid()}" name="petid" onclick="populateData(this);"> </td>       
                         <td>${details.getOwnername()}</td>
                         <td>${details.getPhonenumber()}</td>
                         <td>${details.getEmail()}</td>
@@ -51,7 +51,7 @@ document.getElementById('petownerid').value=val.value;
                         <td>${details.getKci()}</td>
                         <td>${details.getCatregno()}</td>
                         
-                        <td><input type="text" value="${details.getPetid()}" name="petid" ></td>
+                        <td><input type="text" value="${details.getOwnerid()}" name="petownerid" ></td>
                     </tr>
                     </c:forEach>
 

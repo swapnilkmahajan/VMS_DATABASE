@@ -32,7 +32,7 @@ function validateForm()
 <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/CSS/DarkMatter.css" />
 
 <body>
-<form action="${pageContext.request.contextPath}/" class="dark-matter" name="petOwnerForm" onSubmit="return validateForm()">
+<form action="${pageContext.request.contextPath}/UpdateOwnerDetails" class="dark-matter" name="petOwnerForm" onSubmit="return validateForm()">
 <h1>Update Pet Owner Details</h1>
 <input type="hidden" name="petownerid" value="<%=request.getAttribute("ownerid")%>">
 <h2>Basic Details: </h2>

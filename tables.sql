@@ -566,9 +566,94 @@ begin
         when others then
             Rollback;
         dbms_output.put_line('ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM);
-            result:= 'ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM;    
+            --result:= 'ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM;    
+			result:= 'ERROR';
         end;
 
 end;
 
+/
+
+create or replace procedure vms_database.update_Pet(in_pet_id number, in_pname varchar2, in_breed varchar2, in_color varchar2,
+ in_DOB varchar2, in_gender varchar2, in_pet_type varchar2, in_kci varchar2, in_mchip number, in_regnum number, result OUT varchar2)
+ 
+ as
+ 
+ pet_exists number(10);
+ var_dob date;
+ var_kci vms_database.Dog.kennel_club_number%type;
+ var_mchip vms_database.Dog.microchip_number%type;
+ var_regnum vms_database.Cat.reg_number%type;
+ dup_kci number(1) := 0;
+ dup_mchip number(1):= 0;
+ dup_regnum number(1) := 0;
+ begin
+ 
+ if in_kci = '' then
+    var_kci := null;
+ else
+    var_kci := in_kci;
+ end if;
+ 
+ if in_mchip = 0 then
+    var_mchip := null;
+ else
+    var_mchip := in_mchip;
+ end if; 
+ 
+ if in_regnum = 0 then
+    var_regnum := null;
+ else
+    var_regnum := in_regnum;
+ end if;
+ 
+ if in_DOB = '' then
+        var_dob := null;
+    else
+       var_dob:= to_date(in_DOB,'mm/dd/yyyy');
+ end if;
+    
+     
+     if upper(in_pet_type) = 'DOG' then
+         if var_kci is not null then
+            select count(*) into dup_kci from vms_database.dog where kennel_club_number = var_kci and dog_id != in_pet_id;
+         end if;
+         
+         if var_mchip is not null then
+            select count(*) into dup_mchip from vms_database.dog where microchip_number = var_mchip and dog_id != in_pet_id;
+         end if;
+         
+     end if;
+     
+     if upper(in_pet_type) = 'CAT' then
+         if var_regnum is not null then
+            select count(*) into dup_regnum from vms_database.cat where reg_number = var_regnum and cat_id != in_pet_id; 
+         end if;
+         
+      end if;
+     
+     if (dup_kci <> 0) or (dup_mchip <> 0) or (dup_regnum <> 0) THEN
+        result:= 'DUPLICATE';
+     else
+         begin
+            update vms_database.pet set  breed = in_breed, color = in_color, date_of_birth = var_dob, gender = pper(in_gender) where pet_id = in_pet_id;
+            
+            if upper(in_pet_type) = 'CAT' then
+                update VMS_DATABASE.CAT set name = in_pname, reg_number = in_regnum where cat_id = in_pet_id;
+            end if;
+            
+            if upper(in_pet_type) = 'DOG' then
+                update VMS_DATABASE.DOG set name = in_pname, kennel_club_number = in_kci, microchip_number = in_mchip where dog_id = in_pet_id;
+            end if;
+            
+         commit;
+         result:= 'SUCCESS';
+         exception
+         when others then
+         rollback;
+		 result:= 'ERROR COde is ' || SQLCODE ||' Message ' || SQLERRM;    
+         --result:= 'ERROR';
+         end;
+     end if;
+end;
 /

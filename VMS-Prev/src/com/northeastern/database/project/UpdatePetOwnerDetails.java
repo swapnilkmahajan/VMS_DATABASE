@@ -25,7 +25,7 @@ public class UpdatePetOwnerDetails extends HttpServlet {
 			long secondary = 0;
 			long fax = 0;
 			
-			int ownerid = Integer.parseInt(request.getParameter("petownerid"));
+			int petid = Integer.parseInt(request.getParameter("petid"));
 			SearchRecord record = new SearchRecord();
 	
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -36,14 +36,24 @@ public class UpdatePetOwnerDetails extends HttpServlet {
 			String URL ="jdbc:oracle:thin:[vms_database/vms_database]@localhost:1521/XE";
 			Connection conn = DriverManager.getConnection(URL,USER,PASS);
 			System.out.println("Connected to database-PetDetailsForAppointment!!");
+
+			int ownerid = 0;
 			
-			String query = "select pet_id, own_id , pet_name, name as ownername, phone_number as contact,email_Address as email," +
+			String query = "select pet_owner from vms_database.pet where pet_id = ?";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, petid);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+				ownerid = rs.getInt("pet_owner");
+			}
+			
+			query = "select pet_id, own_id , pet_name, name as ownername, phone_number as contact,email_Address as email," +
 					" pet_type, breed, dkci, c_reg_no, profession from vms_database.all_pt_All_details_vw where own_id = ?";
 			
 			
 			ps =  conn.prepareStatement(query);
 			ps.setInt(1, ownerid);
-			ResultSet rs = ps.executeQuery();
+			rs = ps.executeQuery();
 			
 			while(rs.next()){
 				record.setPetid(rs.getInt("pet_id"));
